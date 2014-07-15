@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     **********************************************************************/
 
     MainWindow mainWindow;
-    mainWindow.setGeometry(100, 100, 800, 500);
+    mainWindow.setGeometry(100, 100, 850, 600);
     mainWindow.show();
 
     return a.exec();

@@ -22,6 +22,8 @@ public:
      MainWindow();
      ~MainWindow();
 
+	 virtual void mousePressEvent(QMouseEvent *);
+
 
 public slots:
      void openImage(const QString& path = QString());

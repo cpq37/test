@@ -41,13 +41,18 @@ RESOURCES +=
 SOURCES += ../../src/main.cpp \
     ../../src/mainwindow.cpp \
     ../../src/workscene.cpp \
-    ../../src/myimageitem.cpp
+    ../../src/myimageitem.cpp \
+    ../../src/Controls/DrawUnit.cpp \
+    ../../src/Controls/SkinBase.cpp
 
 # 应用程序所需的额外的包含路径的列表
 HEADERS += \
     ../../src/mainwindow.h \
     ../../src/workscene.h \
-    ../../src/myimageitem.h
+    ../../src/myimageitem.h \
+    ../../src/Controls/DrawUnit.h \
+    ../../src/Controls/SkinBase.h
+
 
 # 应用程序所需的额外的包含路径的列表
 INCLUDEPATH +=

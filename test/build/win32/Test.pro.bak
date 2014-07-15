@@ -34,20 +34,25 @@ MOC_DIR += temp
 PLATFORM_PATH =
 
 # 应用程序中的所有.ui文件（由Qt设计器生成）的列表
-FORMS += TestUI.ui
+FORMS += ../../src/TestUI.ui
 RESOURCES += 
 
 # 应用程序中的所有源文件的列表
-SOURCES += ../../main.cpp \
-    ../../mainwindow.cpp \
-    ../../workscene.cpp \
-    ../../myimageitem.cpp
+SOURCES += ../../src/main.cpp \
+    ../../src/mainwindow.cpp \
+    ../../src/workscene.cpp \
+    ../../src/myimageitem.cpp \
+    ../../src/Controls/DrawUnit.cpp \
+    ../../src/Controls/SkinBase.cpp
 
 # 应用程序所需的额外的包含路径的列表
 HEADERS += \
-    ../../mainwindow.h \
-    ../../workscene.h \
-    ../../myimageitem.h
+    ../../src/mainwindow.h \
+    ../../src/workscene.h \
+    ../../src/myimageitem.h \
+    ../../src/Controls/DrawUnit.h \
+    ../../src/Controls/SkinBase.h
+
 
 # 应用程序所需的额外的包含路径的列表
 INCLUDEPATH +=

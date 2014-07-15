@@ -22,6 +22,8 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 
 void MyImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+	Q_UNUSED(option);
+	Q_UNUSED(widget);
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->drawImage( 0, 0, *m_Image);
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'workscene.h'
 **
-** Created: Wed Jun 25 21:31:01 2014
+** Created: Tue Jul 15 14:24:14 2014
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.1)
 **
 ** WARNING! All changes made in this file will be lost!

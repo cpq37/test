@@ -8,7 +8,7 @@ class MyImageItem : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    MyImageItem(QGraphicsItem *parent = 0);
+    MyImageItem(QGraphicsItem *parent = NULL);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect()const;

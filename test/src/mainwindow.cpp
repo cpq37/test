@@ -16,7 +16,7 @@ MainWindow::MainWindow()
 	testTreeDialog->setupUi( (QDialog*)testWidget);
 
     scene = new WorkScene(this);
-    scene->setSceneRect( QRectF(0, 0, 800, 600) );
+    scene->setSceneRect( QRectF(0, 0, 800, 480) );
     view = new QGraphicsView(scene);
     //view->resize(800, 480);
 
@@ -94,7 +94,7 @@ void MainWindow::openImage(const QString& path)
          scene->addItem(imageItem);
          scene->update(scene->sceneRect());
      }
-
+	
 }
 
 void MainWindow::openDialog()
@@ -116,3 +116,8 @@ void MainWindow::openDialog()
 	testWidget->show();
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *)
+{
+	//scene->sendEvent()
+	qDebug() << "MainWindow::mousePress";
+}
