@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "workscene.h"
-
+#include "setdebugnew.h"
 
 #include <QtGui>
 
@@ -31,9 +31,11 @@ MainWindow::MainWindow()
 
 
 MainWindow::~MainWindow()
-
 {
-
+	delete testTreeDialog;
+	testTreeDialog = NULL;
+	delete testWidget;
+	testWidget = NULL;
 }
 
 
@@ -54,6 +56,8 @@ void MainWindow::createActions()
      connect( openImgAction, SIGNAL(triggered()), this, SLOT(openImage()) );
 	 openTestDialog = new QAction( tr("Open Dialog"), this );
 	 connect( openTestDialog, SIGNAL(triggered()), this , SLOT(openDialog()) );
+	 saveAllImg = new QAction( tr("Save All Image"), this );
+	 connect( saveAllImg, SIGNAL(triggered()), this , SLOT(saveAllImage()) );
 }
 
 
@@ -67,6 +71,7 @@ void MainWindow::createMenus(void)
      imageMen = menuBar()->addMenu( tr("Image") );
      imageMen->addAction( openImgAction );
 	 imageMen->addAction( openTestDialog );
+	 imageMen->addAction( saveAllImg );
 }
 
 void MainWindow::createStatusBar()
@@ -82,17 +87,18 @@ void MainWindow::createStatusBar()
 void MainWindow::openImage(const QString& path)
 {
      QString fileName = path;
-	 MyImageItem* imageItem = new MyImageItem;
+	 MyImageItem* imageItem = new MyImageItem();
 
      if (fileName.isNull())
          fileName = QFileDialog::getOpenFileName(this,\
-         tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif)");
+         tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data)");
 
      if( !fileName.isEmpty())
      {
          imageItem->LoadImageFromFile(fileName);
          scene->addItem(imageItem);
          scene->update(scene->sceneRect());
+		 m_ImageList.push_back(imageItem);
      }
 	
 }
@@ -114,6 +120,17 @@ void MainWindow::openDialog()
 	testTreeDialog->treeWidget->insertTopLevelItem(0, testTreeItem);
 	testTreeDialog->treeWidget->expandAll();
 	testWidget->show();
+}
+
+void MainWindow::saveAllImage()
+{
+	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
+	while( it != m_ImageList.end() )
+	{
+		MyImageItem *tempImageItem = *it;
+		tempImageItem->SaveImage("test.data");
+		it++;
+	}
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *)

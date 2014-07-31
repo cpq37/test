@@ -4,9 +4,14 @@
 #include <QPushButton>
 
 #include "mainwindow.h"
+#include "setdebugnew.h"
 
 int main(int argc, char *argv[])
 {
+#ifdef _DEBUG 
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif
+
     QApplication a(argc, argv);
 
     /**********************************************************************
@@ -19,5 +24,8 @@ int main(int argc, char *argv[])
     mainWindow.setGeometry(100, 100, 850, 600);
     mainWindow.show();
 
+#if defined(WIN32) && defined(_DEBUG)  
+	setFilterDebugHook();  
+#endif  
     return a.exec();
 }

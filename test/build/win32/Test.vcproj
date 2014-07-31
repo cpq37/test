@@ -224,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\setdebugnew.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\workscene.cpp"
 				>
 			</File>
@@ -296,6 +300,10 @@
 						Outputs="temp\moc_myimageitem.cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\setdebugnew.h"
+				>
 			</File>
 			<File
 				RelativePath="..\..\src\workscene.h"

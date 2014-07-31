@@ -12,7 +12,9 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect()const;
+
     void LoadImageFromFile(const QString& imagePath);
+	void SaveImage(const QString& filenamePath);
 signals:
     
 public slots:

@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 
-
+#include <list>
 #include <QMainWindow>
 
 #include "myimageitem.h"
@@ -28,6 +28,7 @@ public:
 public slots:
      void openImage(const QString& path = QString());
 	 void openDialog(void);
+	 void saveAllImage(void);
 
 private:
      void createActions(void);
@@ -44,6 +45,8 @@ private:
      QMenu*             imageMen;
      QAction*           openImgAction;
 	 QAction*			openTestDialog;
+	 QAction*			saveAllImg;
+
 	 QWidget*			testWidget;
 
      QLabel*            formulaLabel;
@@ -53,7 +56,8 @@ private:
      //WorkScene*             scene;
      //MyImageItem* imageItem;
 	 Ui::Dialog*		testTreeDialog;
-
+	
+	 std::list<MyImageItem*>  m_ImageList;
 };
 
 
