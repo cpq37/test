@@ -1,14 +1,21 @@
 #include "myimageitem.h"
-#include "setdebugnew.h"
+#include "Common/setdebugnew.h"
 
 #include <QtGui>
-#include <windows.h>
 
 MyImageItem::MyImageItem(QGraphicsItem *parent) :
     QGraphicsObject(parent)
 {
     m_Image = NULL;
     setFlags(ItemIsMovable | ItemIsSelectable);
+}
+
+MyImageItem::~MyImageItem()
+{
+	if(m_Image)
+	{
+		delete m_Image;
+	}
 }
 
 void MyImageItem::LoadImageFromFile(const QString &imagePath)
@@ -18,7 +25,7 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
         delete m_Image;
         m_Image = NULL;
     }
-	DWORD count = GetTickCount();
+	QTime startTime = QTime::currentTime();
 	if( imagePath.endsWith(tr(".data")) )
 	{
 		QFile file(imagePath);
@@ -31,20 +38,20 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 
 		unsigned int * p_bits;
 		p_bits = (uint*)m_Image->bits();
-		for(int i=0; i<dataSize; i+=4)
+		for(int i=0,j=0; i<dataSize; i+=4,j++)
 		{
-			p_bits[i/4] = qRgb(dataBuffer[i+2], dataBuffer[i+1], dataBuffer[i]);
+			p_bits[j] = qRgb(dataBuffer[i+2], dataBuffer[i+1], dataBuffer[i]);
 		}
 
 		//Ìî³ä£¬x¡¢y¾ÓÈ»µ¹ÖÃ
 // 		QRgb rgb;
-// 		for(int i=0; i<40; i++)
+// 		for(int i=0; i<600; i++)
 // 		{
-// 			for(int j=0; j<40; j++)
+// 			for(int j=0; j<800; j++)
 // 			{
-// 				int r = dataBuffer[i*40*4+j*4+2];
-// 				int g = dataBuffer[i*40*4+j*4+1];
-// 				int b = dataBuffer[i*40*4+j*4];
+// 				int r = dataBuffer[i*800*4+j*4+2];
+// 				int g = dataBuffer[i*800*4+j*4+1];
+// 				int b = dataBuffer[i*800*4+j*4];
 // 				rgb = qRgb(r, g, b);
 // 				m_Image->setPixel(j,i, rgb);
 // 			}
@@ -57,7 +64,8 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 	{
 		m_Image = new QImage(imagePath);
 	}
-	qDebug() << GetTickCount()-count;
+	QTime endTime = QTime::currentTime();
+	qDebug() << startTime.msecsTo(endTime);
 }
 
 void MyImageItem::SaveImage(const QString& filenamePath)
@@ -90,10 +98,14 @@ void MyImageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 	Q_UNUSED(widget);
 	if( m_Image != NULL && this->childItems().size() == 0)
 	{
-		//QPixmap pixmapToShow = QPixmap::fromImage( m_Image->scaled(m_Image->size(), Qt::KeepAspectRatio) );  
 		painter->setRenderHint(QPainter::Antialiasing, true);
+		QTime startTime = QTime::currentTime();
+		QPixmap pixmapToShow = QPixmap::fromImage( m_Image->scaled(m_Image->size(), Qt::KeepAspectRatio) );  
 		//painter->drawImage( 0, 0, *m_Image);
-		painter->drawPixmap(0, 0, QPixmap::fromImage(*m_Image));
+		//painter->drawPixmap(0, 0, QPixmap::fromImage(*m_Image));
+		QTime endTime = QTime::currentTime();
+		painter->drawPixmap(0, 0, pixmapToShow);
+		qDebug() << "paint" << startTime.msecsTo(endTime);
 	}
 }
 

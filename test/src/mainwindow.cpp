@@ -1,13 +1,12 @@
 #include "mainwindow.h"
 #include "workscene.h"
-#include "setdebugnew.h"
+#include "Common/setdebugnew.h"
 
 #include <QtGui>
 
 MainWindow::MainWindow()
 {
-    //imageItem = new MyImageItem();
-    createActions();
+    //createActions();
     createMenus();
     createStatusBar();
 
@@ -32,46 +31,56 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-	delete testTreeDialog;
-	testTreeDialog = NULL;
-	delete testWidget;
-	testWidget = NULL;
+	if( testTreeDialog )
+	{
+		delete testTreeDialog;
+		testTreeDialog = NULL;
+	}
+	if( testWidget )
+	{
+		delete testWidget;
+		testWidget = NULL;
+	}
 }
 
 
 void MainWindow::createActions()
 {
-     exitAction = new QAction( tr("E&xit"), this );
-     exitAction->setShortcuts( QKeySequence::Quit );
-     exitAction->setStatusTip( tr("Quit Programe") );
-     connect( exitAction, SIGNAL(triggered()), this, SLOT(close()) );
 
-     openAciton = new QAction( tr("&Open..."), this );
-     openAciton->setShortcut( QKeySequence::Open );
-     connect( openAciton, SIGNAL(triggered()), this, SLOT(openImage()) );
-
-     ////////////////////////////////////////////////////////////////////////////
-
-     openImgAction = new QAction( tr("Open Image"), this );
-     connect( openImgAction, SIGNAL(triggered()), this, SLOT(openImage()) );
-	 openTestDialog = new QAction( tr("Open Dialog"), this );
-	 connect( openTestDialog, SIGNAL(triggered()), this , SLOT(openDialog()) );
-	 saveAllImg = new QAction( tr("Save All Image"), this );
-	 connect( saveAllImg, SIGNAL(triggered()), this , SLOT(saveAllImage()) );
 }
 
 
 
 void MainWindow::createMenus(void)
 {
-     fileMenu = menuBar()->addMenu( tr("&File") );
-     fileMenu->addAction( exitAction );
-     fileMenu->addAction( openAciton );
+	fileMenu = menuBar()->addMenu( tr("&File") );
+	
+	exitAction = new QAction( tr("E&xit"), this );
+	exitAction->setShortcuts( QKeySequence::Quit );
+	exitAction->setStatusTip( tr("Quit Programe") );
+	connect( exitAction, SIGNAL(triggered()), this, SLOT(close()) );
+	fileMenu->addAction( exitAction );
 
-     imageMen = menuBar()->addMenu( tr("Image") );
-     imageMen->addAction( openImgAction );
-	 imageMen->addAction( openTestDialog );
-	 imageMen->addAction( saveAllImg );
+	openAciton = new QAction( tr("&Open..."), this );
+	openAciton->setShortcut( QKeySequence::Open );
+	connect( openAciton, SIGNAL(triggered()), this, SLOT(openImage()) );
+	fileMenu->addAction( openAciton );
+
+
+	////////////////////////////////////////////////////////////////////////////
+	imageMen = menuBar()->addMenu( tr("Image") );
+
+	openImgAction = new QAction( tr("Open Image"), this );
+	connect( openImgAction, SIGNAL(triggered()), this, SLOT(openImage()) );
+	imageMen->addAction( openImgAction );
+
+	openTestDialog = new QAction( tr("Open Dialog"), this );
+	connect( openTestDialog, SIGNAL(triggered()), this , SLOT(openDialog()) );
+	imageMen->addAction( openTestDialog );
+
+	saveAllImg = new QAction( tr("Save All Image"), this );
+	connect( saveAllImg, SIGNAL(triggered()), this , SLOT(saveAllImage()) );
+	imageMen->addAction( saveAllImg );
 }
 
 void MainWindow::createStatusBar()

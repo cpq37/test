@@ -4,7 +4,8 @@
 #include <QPushButton>
 
 #include "mainwindow.h"
-#include "setdebugnew.h"
+#include "Common/setdebugnew.h"
+#include "UIEngine/ImageResourceManager.h"
 
 int main(int argc, char *argv[])
 {

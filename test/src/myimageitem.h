@@ -4,11 +4,14 @@
 #include <QGraphicsObject>
 #include <QGraphicsItem>
 
+
+
 class MyImageItem : public QGraphicsObject
 {
     Q_OBJECT
 public:
     MyImageItem(QGraphicsItem *parent = NULL);
+	~MyImageItem();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect()const;

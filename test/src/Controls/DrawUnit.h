@@ -42,7 +42,7 @@ public:
 	CDrawUnit(void* parent,int x,int y,int width, int height);
 	virtual ~CDrawUnit(void);
 
-	virtual void Draw(void * handler) = 0;//////目前是不支持Z轴的判断进行前后绘制
+	virtual void Draw(void * handler) = 0;
 	virtual void ReDraw() = 0;
 	void SetType(const string &type);
 	bool IsKindOf(const string &kind);

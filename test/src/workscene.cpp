@@ -1,5 +1,5 @@
 #include "workscene.h"
-#include "setdebugnew.h"
+#include "Common/setdebugnew.h"
 
 #include <QGraphicsRectItem>
 

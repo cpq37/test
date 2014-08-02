@@ -212,6 +212,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\UIEngine\ImageResourceManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -221,10 +225,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\myimageitem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\setdebugnew.cpp"
 				>
 			</File>
 			<File
@@ -243,12 +243,28 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Common"
+				>
+				<File
+					RelativePath="..\..\src\Common\setdebugnew.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Common\xFile\xmemfile.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\src\UIEngine\ImageResourceManager.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\src\mainwindow.h"
 				>
@@ -300,10 +316,6 @@
 						Outputs="temp\moc_myimageitem.cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\setdebugnew.h"
-				>
 			</File>
 			<File
 				RelativePath="..\..\src\workscene.h"
@@ -363,6 +375,26 @@
 							Outputs="temp\moc_SkinBase.cpp"
 						/>
 					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="Common"
+				>
+				<File
+					RelativePath="..\..\src\Common\setdebugnew.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Common\xFile\xfile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Common\xFile\xiofile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\Common\xFile\xmemfile.h"
+					>
 				</File>
 			</Filter>
 		</Filter>
