@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 # 建立一个应用程序的makefile
-TEMPLATE = app
+TEMPLATE = app 
 
 
 # 告诉qmake关于应用程序的配置信息
@@ -37,8 +37,15 @@ PLATFORM_PATH =
 FORMS += ../../src/TestUI.ui
 RESOURCES += 
 
+
 # 应用程序中的所有源文件的列表
-SOURCES += ../../src/main.cpp \
+SOURCES += \
+    ../../src/UIEngine/ImageResourceManager.cpp \
+    ../../src/Controls/SkinBase.cpp \
+    ../../src/Controls/DrawUnit.cpp \
+    ../../src/Common/setdebugnew.cpp \
+    ../../src/Common/xFile/xmemfile.cpp \
+    ../../src/main.cpp \
     ../../src/mainwindow.cpp \
     ../../src/workscene.cpp \
     ../../src/myimageitem.cpp \
@@ -47,6 +54,13 @@ SOURCES += ../../src/main.cpp \
 
 # 应用程序所需的额外的包含路径的列表
 HEADERS += \
+    ../../src/UIEngine/ImageResourceManager.h \
+    ../../src/Controls/SkinBase.h \
+    ../../src/Controls/DrawUnit.h \
+    ../../src/Common/setdebugnew.h \
+    ../../src/Common/xFile/xfile.h \
+    ../../src/Common/xFile/xiofile.h \
+    ../../src/Common/xFile/xmemfile.h \
     ../../src/mainwindow.h \
     ../../src/workscene.h \
     ../../src/myimageitem.h \
