@@ -3,52 +3,75 @@
 
 #include <string>
 #include <list>
+#include "../Common/xFile/xiofile.h"
+typedef struct
+{
+	unsigned int id;
+	unsigned int offset;
+	unsigned int width;
+	unsigned int height;
+	unsigned int size;
+}ImageInfo;
+
+typedef struct
+{
+	unsigned char		flag;
+	ImageInfo			*pImageHead;
+	const unsigned char *pDatas;
+}ImagdeData;
 
 
 namespace UIEngine
 {
-	typedef struct
-	{
-		unsigned int U32_Id;
-		unsigned int U32_Offset;
-		unsigned int U32_Width;
-		unsigned int U32_Height;
-		unsigned int U32_Size;
-	}ImageInfo;
 
-
-	class CImageResourceManager
+	class CImageDatasManager
 	{
 	public:
-		class BitmapMap
-		{
-		public:
-			BitmapMap()
-			{	
-				m_ImageDatas = NULL;
-				m_refcount = 0;
-			}
-			virtual ~BitmapMap()
-			{
+// 		class BitmapMap
+// 		{
+// 		public:
+// 			BitmapMap()
+// 			{	
+// 				m_ImageDatas = NULL;
+// 				m_refcount = 0;
+// 			}
+// 			virtual ~BitmapMap()
+// 			{
+// 
+// 			}
+// 			ImageInfo					m_ImageIndex;
+// 			const unsigned char*		m_ImageDatas;
+// 			std::string					m_filename;
+// 			long						m_refcount;
+// 		};
 
-			}
-			ImageInfo					m_ImageIndex;
-			const unsigned char*		m_ImageDatas;
-			std::string					m_filename;
-			long						m_refcount;
-		};
+		CImageDatasManager();
+		~CImageDatasManager();
 
-		CImageResourceManager();
-		~CImageResourceManager();
-
-		static CImageResourceManager* GetInstance();
-		void		AddImage(BitmapMap* pBitmap);
+		static CImageDatasManager* GetInstance();
+		void		AddImage(ImagdeData* pBitmap);
+		void		AddImage(ImageInfo* pImageInfo, const unsigned char *datas);
 		void		ReleasImage(unsigned int bitmapID);
-		BitmapMap*	GetImage(unsigned int bitmapID);
+		ImageInfo*	GetImageInfo(unsigned int bitmapID);
+		const unsigned char* GetImageDatas(unsigned int bitmapID);
+		const unsigned char* GetImageDatasByIndex(unsigned int index, ImagdeData *pBitmap);
+		void		ReleasImageDatasBuffer();
+		
+		void		CleanAllImages();
+		int			GetImagesCount(){return m_nImagesCount;};
+
+		void		SaveImageInfo();
+		void		SaveImageDatas();
+		void		SaveAllImages();
+		bool		ReadImagePacket(const char* file=NULL);
 	private:
-		static CImageResourceManager *m_singelton;
-		std::list<BitmapMap*>	m_pImageList;
-		unsigned int			m_nImageSize;
+		static CImageDatasManager *m_singelton;
+		std::list<ImagdeData*>	m_pImageHeadList;
+		//std::list<const unsigned char*> m_pImageSaveDatas;
+		unsigned int			m_nImagesCount;
+		unsigned int			m_nBaseOffset;
+		const unsigned char		*m_pDatasBuffer;
+		CxIOFile				m_fPacketFile;
 		
 	};
 }//UIEngine

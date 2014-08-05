@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "workscene.h"
 #include "Common/setdebugnew.h"
+#include "UIEngine/ImageResourceManager.h"
 
 #include <QtGui>
 
@@ -68,19 +69,23 @@ void MainWindow::createMenus(void)
 
 
 	////////////////////////////////////////////////////////////////////////////
-	imageMen = menuBar()->addMenu( tr("Image") );
+	imageMenu = menuBar()->addMenu( tr("Image") );
 
 	openImgAction = new QAction( tr("Open Image"), this );
 	connect( openImgAction, SIGNAL(triggered()), this, SLOT(openImage()) );
-	imageMen->addAction( openImgAction );
+	imageMenu->addAction( openImgAction );
 
 	openTestDialog = new QAction( tr("Open Dialog"), this );
 	connect( openTestDialog, SIGNAL(triggered()), this , SLOT(openDialog()) );
-	imageMen->addAction( openTestDialog );
+	imageMenu->addAction( openTestDialog );
 
 	saveAllImg = new QAction( tr("Save All Image"), this );
 	connect( saveAllImg, SIGNAL(triggered()), this , SLOT(saveAllImage()) );
-	imageMen->addAction( saveAllImg );
+	imageMenu->addAction( saveAllImg );
+
+	testAction = new QAction( tr("Test"), this );
+	imageMenu->addAction(testAction);
+	connect( testAction, SIGNAL(triggered()), this , SLOT(test()) );
 }
 
 void MainWindow::createStatusBar()
@@ -96,18 +101,44 @@ void MainWindow::createStatusBar()
 void MainWindow::openImage(const QString& path)
 {
      QString fileName = path;
-	 MyImageItem* imageItem = new MyImageItem();
-
+	
+	
      if (fileName.isNull())
          fileName = QFileDialog::getOpenFileName(this,\
-         tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data)");
-
+         tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data *.pack)");
+	QTime startTime = QTime::currentTime();
      if( !fileName.isEmpty())
      {
-         imageItem->LoadImageFromFile(fileName);
-         scene->addItem(imageItem);
-         scene->update(scene->sceneRect());
-		 m_ImageList.push_back(imageItem);
+		 if( fileName.endsWith(tr(".pack")) )
+		 {
+			 if(UIEngine::CImageDatasManager::GetInstance()->ReadImagePacket( fileName.toStdString().data() ) )
+			 {
+				 qDebug() << "Read packet time:" << QTime::currentTime().secsTo(startTime);
+				 int i = 0;
+				 int count = UIEngine::CImageDatasManager::GetInstance()->GetImagesCount();
+				 for(i=0; i< count; i++)
+				 {
+					MyImageItem* imageItem = new MyImageItem();
+					const unsigned  char *tempBuffer = UIEngine::CImageDatasManager::GetInstance()->\
+						GetImageDatasByIndex(i, imageItem->GetImageData());
+					qDebug() << "Read one picture:" << QTime::currentTime().secsTo(startTime);
+					imageItem->LoadImageFromDatas(tempBuffer);
+					scene->addItem(imageItem);
+					scene->update(scene->sceneRect());
+					m_ImageList.push_back(imageItem);
+				 }
+			 }
+			 qDebug() << "all time:" << QTime::currentTime().secsTo(startTime);
+		 }
+		 else
+		 {
+			 MyImageItem* imageItem = new MyImageItem();
+			 imageItem->LoadImageFromFile(fileName);
+			 scene->addItem(imageItem);
+			 scene->update(scene->sceneRect());
+			 m_ImageList.push_back(imageItem);
+		 }
+
      }
 	
 }
@@ -131,6 +162,12 @@ void MainWindow::openDialog()
 	testWidget->show();
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *)
+{
+	//scene->sendEvent()
+	qDebug() << "MainWindow::mousePress";
+}
+
 void MainWindow::saveAllImage()
 {
 	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
@@ -142,8 +179,18 @@ void MainWindow::saveAllImage()
 	}
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *)
+
+void MainWindow::test()
 {
-	//scene->sendEvent()
-	qDebug() << "MainWindow::mousePress";
+	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
+	UIEngine::CImageDatasManager::GetInstance()->CleanAllImages();
+	while( it != m_ImageList.end() )
+	{
+		MyImageItem *tempImageItem = *it;
+		UIEngine::CImageDatasManager::GetInstance()->AddImage(tempImageItem->GetImageData());
+		it++;
+	}
+
+	UIEngine::CImageDatasManager::GetInstance()->SaveAllImages();
 }
+

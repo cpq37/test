@@ -3,8 +3,9 @@
 
 #include <QGraphicsObject>
 #include <QGraphicsItem>
+#include <windows.h>
 
-
+#include "UIEngine/ImageResourceManager.h"
 
 class MyImageItem : public QGraphicsObject
 {
@@ -17,7 +18,9 @@ public:
     QRectF boundingRect()const;
 
     void LoadImageFromFile(const QString& imagePath);
+	bool LoadImageFromDatas(const unsigned char *datas);
 	void SaveImage(const QString& filenamePath);
+	ImagdeData *GetImageData();
 signals:
     
 public slots:
@@ -30,7 +33,8 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QImage* m_Image;
+    QImage					*m_Image;
+	ImagdeData				*m_ImageData; 
 };
 
 #endif // MYIMAGEITEM_H

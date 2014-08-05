@@ -29,6 +29,7 @@ public slots:
      void openImage(const QString& path = QString());
 	 void openDialog(void);
 	 void saveAllImage(void);
+	 void test(void);
 
 private:
      void createActions(void);
@@ -42,10 +43,11 @@ private:
      QAction*           exitAction;            //退出菜单选项
      QAction*           openAciton;
      ////////////////////////////////////////////////////////////////////
-     QMenu*             imageMen;
+     QMenu*             imageMenu;
      QAction*           openImgAction;
 	 QAction*			openTestDialog;
 	 QAction*			saveAllImg;
+	 QAction*			testAction;
 
 	 QWidget*			testWidget;
 

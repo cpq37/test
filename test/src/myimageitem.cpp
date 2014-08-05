@@ -1,20 +1,36 @@
 #include "myimageitem.h"
 #include "Common/setdebugnew.h"
 
+
 #include <QtGui>
 
-MyImageItem::MyImageItem(QGraphicsItem *parent) :
-    QGraphicsObject(parent)
+
+
+
+MyImageItem::MyImageItem(QGraphicsItem *parent) 
+	: QGraphicsObject(parent)
+	, m_Image(NULL)
+	, m_ImageData(NULL)
 {
-    m_Image = NULL;
     setFlags(ItemIsMovable | ItemIsSelectable);
 }
 
 MyImageItem::~MyImageItem()
 {
+	if( m_ImageData )
+	{
+		if( m_ImageData->pImageHead )
+		{
+			delete m_ImageData->pImageHead;
+			m_ImageData->pImageHead = NULL;
+		}
+		delete m_ImageData;
+		m_ImageData = NULL;
+	}
 	if(m_Image)
 	{
 		delete m_Image;
+		m_Image = NULL;
 	}
 }
 
@@ -25,7 +41,9 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
         delete m_Image;
         m_Image = NULL;
     }
+
 	QTime startTime = QTime::currentTime();
+	DWORD Count = GetTickCount();
 	if( imagePath.endsWith(tr(".data")) )
 	{
 		QFile file(imagePath);
@@ -65,7 +83,36 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 		m_Image = new QImage(imagePath);
 	}
 	QTime endTime = QTime::currentTime();
-	qDebug() << startTime.msecsTo(endTime);
+	qDebug() << "load+decode" << startTime.msecsTo(endTime);
+	qDebug() << "load+decode" << GetTickCount()-Count;
+
+}
+
+bool MyImageItem::LoadImageFromDatas(const unsigned char *datas)
+{
+	bool ret = false;
+	if( datas )
+	{
+		if(m_Image)
+		{
+			delete m_Image;
+			m_Image = NULL;
+		}
+		
+		if(m_ImageData)
+		{
+			m_Image = new QImage(m_ImageData->pImageHead->width,m_ImageData->pImageHead->height, QImage::Format_RGB32);
+
+			unsigned int * p_bits;
+			p_bits = (uint*)m_Image->bits();
+			for(int i=0,j=0; i<m_ImageData->pImageHead->size; i+=4,j++)
+			{
+				p_bits[j] = qRgb(datas[i+2], datas[i+1], datas[i]);
+			}
+		}
+	}
+
+	return ret;
 }
 
 void MyImageItem::SaveImage(const QString& filenamePath)
@@ -137,3 +184,26 @@ void MyImageItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 
+ImagdeData* MyImageItem::GetImageData()
+{
+	if( NULL == m_ImageData )
+	{
+		m_ImageData = new ImagdeData;
+		memset(m_ImageData, 0, sizeof(ImagdeData));
+
+		if( NULL == m_ImageData->pImageHead )
+		{
+			m_ImageData->pImageHead = new ImageInfo;
+			memset(m_ImageData->pImageHead, 0, sizeof(ImageInfo));
+		}
+	}
+
+	if( m_Image )
+	{
+		m_ImageData->pImageHead->size = m_Image->byteCount();
+		m_ImageData->pImageHead->width = m_Image->width();
+		m_ImageData->pImageHead->height = m_Image->height();
+		m_ImageData->pDatas = m_Image->bits();
+	}
+	return m_ImageData;
+}

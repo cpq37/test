@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     mainWindow.show();
 
 #if defined(WIN32) && defined(_DEBUG)  
-	setFilterDebugHook();  
+	//setFilterDebugHook();  
 #endif  
     return a.exec();
 }
