@@ -11,6 +11,7 @@ public:
      WorkScene(QObject *parent);
      ~WorkScene();
 
+
 protected:
 
 private:

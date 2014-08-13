@@ -22,11 +22,11 @@ int main(int argc, char *argv[])
     **********************************************************************/
 
     MainWindow mainWindow;
-    mainWindow.setGeometry(100, 100, 850, 600);
+    mainWindow.setGeometry(100, 100, 1100, 680);
     mainWindow.show();
 
 #if defined(WIN32) && defined(_DEBUG)  
-	//setFilterDebugHook();  
+	setFilterDebugHook();  
 #endif  
     return a.exec();
 }

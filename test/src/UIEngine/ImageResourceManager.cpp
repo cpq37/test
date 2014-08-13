@@ -121,12 +121,6 @@ void CImageDatasManager::SaveAllImages()
 {
 	CxIOFile file;
 
-// 	if( m_pImageHeadList.size() != m_pImageSaveDatas.size() )
-// 	{
-// 		printf("error!\n");
-// 		return;
-// 	}
-
 	if( m_nImagesCount != m_pImageHeadList.size() )
 	{
 		m_nImagesCount = m_pImageHeadList.size();
@@ -234,7 +228,6 @@ const unsigned char* CImageDatasManager::GetImageDatasByIndex(unsigned int index
 				if( pBitmap )
 				{
 					memcpy(pBitmap->pImageHead, pImageData->pImageHead, sizeof(ImageInfo));
-					//pBitmap = pImageData;
 				}
 			}
 

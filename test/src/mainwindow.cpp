@@ -5,19 +5,29 @@
 
 #include <QtGui>
 
+
+
 MainWindow::MainWindow()
 {
     //createActions();
     createMenus();
     createStatusBar();
 
-	testWidget = new QWidget;
+	testWidget = new MyWidget;
 	testTreeDialog = new Ui::Dialog();
 	testTreeDialog->setupUi( (QDialog*)testWidget);
 
+	QDockWidget* pPicManagerDock = new QDockWidget(tr("Picture Manager"), this);
+	pPicManagerDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	pPicManagerDock->setAllowedAreas(Qt::LeftDockWidgetArea);
+	testWidget->SetSize(200, 100);
+	pPicManagerDock->setWidget(testWidget);
+	//pPicManagerDock->setMinimumWidth(200);
+	addDockWidget(Qt::LeftDockWidgetArea,pPicManagerDock);  
+
     scene = new WorkScene(this);
     scene->setSceneRect( QRectF(0, 0, 800, 480) );
-    view = new QGraphicsView(scene);
+    view = new MyGraphicsView(scene);
     //view->resize(800, 480);
 
     QHBoxLayout* layout = new QHBoxLayout;

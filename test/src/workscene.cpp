@@ -7,7 +7,7 @@ WorkScene::WorkScene(QObject *parent)
 
      : QGraphicsScene(parent)
 {
-	QGraphicsRectItem *pRect = new QGraphicsRectItem(0,0,800,480);
+	QGraphicsRectItem *pRect = new QGraphicsRectItem(-1,-1,802,482);
 	QPen testPen;
 	testPen.setColor(QColor(255,0,0));
 	pRect->setPen(testPen);
