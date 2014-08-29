@@ -27,32 +27,14 @@ namespace UIEngine
 	class CImageDatasManager
 	{
 	public:
-// 		class BitmapMap
-// 		{
-// 		public:
-// 			BitmapMap()
-// 			{	
-// 				m_ImageDatas = NULL;
-// 				m_refcount = 0;
-// 			}
-// 			virtual ~BitmapMap()
-// 			{
-// 
-// 			}
-// 			ImageInfo					m_ImageIndex;
-// 			const unsigned char*		m_ImageDatas;
-// 			std::string					m_filename;
-// 			long						m_refcount;
-// 		};
-
 		CImageDatasManager();
 		~CImageDatasManager();
 
 		static CImageDatasManager* GetInstance();
 		void		AddImage(ImagdeData* pBitmap);
 		void		AddImage(ImageInfo* pImageInfo, const unsigned char *datas);
-		void		ReleasImage(unsigned int bitmapID);
-		ImageInfo*	GetImageInfo(unsigned int bitmapID);
+		//void		ReleasImage(unsigned int bitmapID);
+		//ImageInfo*	GetImageInfo(unsigned int bitmapID);
 		const unsigned char* GetImageDatas(unsigned int bitmapID);
 		const unsigned char* GetImageDatasByIndex(unsigned int index, ImagdeData *pBitmap);
 		void		ReleasImageDatasBuffer();
@@ -60,8 +42,8 @@ namespace UIEngine
 		void		CleanAllImages();
 		int			GetImagesCount(){return m_nImagesCount;};
 
-		void		SaveImageInfo();
-		void		SaveImageDatas();
+		//void		SaveImageInfo();
+		//void		SaveImageDatas();
 		void		SaveAllImages();
 		bool		ReadImagePacket(const char* file=NULL);
 	private:
