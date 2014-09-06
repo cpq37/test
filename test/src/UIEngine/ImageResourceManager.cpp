@@ -213,7 +213,7 @@ const unsigned char* CImageDatasManager::GetImageDatasByIndex(unsigned int index
 	}
 
 	std::list<ImagdeData*>::iterator it = m_pImageHeadList.begin();
-	int count = 0;
+	int count = 0; 
 	while(it != m_pImageHeadList.end())
 	{
 		if( count == index )
