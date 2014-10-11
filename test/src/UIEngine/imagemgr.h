@@ -28,7 +28,8 @@ struct ImageData
 	unsigned char		flag;
 	std::string			m_Name;        // for reconstruction
 	ImageInfo			*pImageHead;
-	const unsigned char *pDatas;
+	const unsigned char *pDatas;		//还是没解决图像数据的分配，保存，释放。
+										//是否应该把文件读写放在上一层，根据实际应用考虑是否分配图像数据的空间
 };
 
 class ImageMgr
@@ -119,12 +120,17 @@ void ImageMgr::CleanAllImages()
 	while (it != m_NameIndex.end())
 	{
 		ImagdeData *pImageData = m_Images->Acquire(it->second);
-		if( 1 == pImageData->flag )
+		if( pImageData )
 		{
 			if( pImageData->pImageHead )
 			{
 				delete pImageData->pImageHead;
 				pImageData->pImageHead = NULL;
+			}
+			if( pImageData->pDatas )
+			{
+				delete pImageData->pDatas;
+				pImageData->pDatas = NULL;
 			}
 		}
 		delete pImageData;

@@ -1,7 +1,7 @@
+#include <QGraphicsRectItem>
+
 #include "workscene.h"
 #include "Common/setdebugnew.h"
-
-#include <QGraphicsRectItem>
 
 WorkScene::WorkScene(QObject *parent)
 

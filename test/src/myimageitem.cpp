@@ -1,11 +1,13 @@
+//#include <QtGui>
+#include <windows.h>
+#include <QFile>
+#include <QTime>
+#include <QDebug>
+#include <QPainter>
+#include <QCursor>
+
 #include "myimageitem.h"
 #include "Common/setdebugnew.h"
-
-
-#include <QtGui>
-
-
-
 
 MyImageItem::MyImageItem(QGraphicsItem *parent) 
 	: QGraphicsObject(parent)
@@ -167,7 +169,7 @@ QRectF MyImageItem::boundingRect()const
 void MyImageItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mousePressEvent(event);
-    setCursor(Qt::ClosedHandCursor);
+	setCursor(QCursor(Qt::ClosedHandCursor));
 	//qDebug() << event->pos().x() << "," << event->pos().y(); 
 }
 
@@ -179,8 +181,8 @@ void MyImageItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void MyImageItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsObject::mouseReleaseEvent(event);
-    setCursor(Qt::OpenHandCursor);
-	qDebug() << pos().x() << "," << pos().y();
+    setCursor(QCursor(Qt::OpenHandCursor));
+	//qDebug() << pos().x() << "," << pos().y();
 }
 
 

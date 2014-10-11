@@ -3,7 +3,7 @@
 
 #include <QGraphicsObject>
 #include <QGraphicsItem>
-#include <windows.h>
+
 
 #include "UIEngine/ImageResourceManager.h"
 

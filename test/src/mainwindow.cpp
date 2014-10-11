@@ -1,10 +1,10 @@
-#include "mainwindow.h"
-#include "workscene.h"
-#include "Common/setdebugnew.h"
-#include "UIEngine/ImageResourceManager.h"
-
 #include <QtGui>
 
+#include "mainwindow.h"
+#include "workscene.h"
+
+#include "UIEngine/ImageResourceManager.h"
+#include "Common/setdebugnew.h"
 
 
 MainWindow::MainWindow()
