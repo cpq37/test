@@ -2,12 +2,14 @@
 
 #include "mainwindow.h"
 #include "workscene.h"
+#include "picmanager.h"
 
 #include "UIEngine/ImageResourceManager.h"
 #include "Common/setdebugnew.h"
 
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
+    : QMainWindow(parent, f)
 {
     //createActions();
     createMenus();
@@ -17,12 +19,13 @@ MainWindow::MainWindow()
 	testTreeDialog = new Ui::Dialog();
 	testTreeDialog->setupUi( (QDialog*)testWidget);
 
-	QDockWidget* pPicManagerDock = new QDockWidget(tr("Picture Manager"), this);
-	pPicManagerDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    pPicManagerDock = new QDockWidget(tr("Picture Manager"), this);
+    //pPicManagerDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
 	pPicManagerDock->setAllowedAreas(Qt::LeftDockWidgetArea);
-	testWidget->SetSize(200, 100);
-	pPicManagerDock->setWidget(testWidget);
-	//pPicManagerDock->setMinimumWidth(200);
+    pPicManagerWidget = new PicManager(this);
+    //pPicManagerWidget->SetSize(200, 100);
+    pPicManagerDock->setWidget(pPicManagerWidget);
+    pPicManagerDock->setMinimumWidth(200);
 	addDockWidget(Qt::LeftDockWidgetArea,pPicManagerDock);  
 
     scene = new WorkScene(this);
@@ -30,12 +33,12 @@ MainWindow::MainWindow()
     view = new MyGraphicsView(scene);
     //view->resize(800, 480);
 
-    QHBoxLayout* layout = new QHBoxLayout;
-    layout->addWidget( view );
-    QWidget* widget = new QWidget;
-    widget->setLayout(layout);
+//    QHBoxLayout* layout = new QHBoxLayout(this);
+//    layout->addWidget( view );
+//    QWidget* widget = new QWidget(this);
+//    widget->setLayout(layout);
 
-    setCentralWidget( widget );
+    setCentralWidget( view );
 }
 
 
@@ -155,6 +158,16 @@ void MainWindow::openImage(const QString& path)
 
 void MainWindow::openDialog()
 {
+    QString dirName;
+
+
+    if (dirName.isNull())
+        dirName = QFileDialog::getExistingDirectory(this,\
+        tr("Open Image Directory"), "" );
+    if( !dirName.isEmpty())
+    {
+        qDebug()<<dirName;
+    }
 
 	testTreeDialog->treeWidget->setColumnCount(2);
 	QStringList treeLabers(tr("Name"));

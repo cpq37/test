@@ -77,7 +77,7 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 // 			}
 // 		}
 		qDebug() << dataSize;
-		delete dataBuffer;
+        delete[] dataBuffer;
 		file.close();
 	}
 	else

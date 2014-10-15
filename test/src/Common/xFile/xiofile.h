@@ -70,7 +70,8 @@ public:
 		pos = ftell(m_fp);
 		fseek(m_fp, 0, SEEK_END);
 		size = ftell(m_fp);
-		fseek(m_fp, pos,SEEK_SET);
+        if(pos)
+            fseek(m_fp, pos,SEEK_SET);
 		return size;
 	}
 //////////////////////////////////////////////////////////

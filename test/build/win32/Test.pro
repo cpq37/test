@@ -34,15 +34,14 @@ MOC_DIR += temp
 PLATFORM_PATH =
 
 # 应用程序中的所有.ui文件（由Qt设计器生成）的列表
-FORMS += ../../src/TestUI.ui
+FORMS += ../../src/TestUI.ui \
+    ../../src/picmanager.ui
 RESOURCES += 
 
 
 # 应用程序中的所有源文件的列表
 SOURCES += \
     ../../src/UIEngine/ImageResourceManager.cpp \
-    ../../src/Controls/SkinBase.cpp \
-    ../../src/Controls/DrawUnit.cpp \
     ../../src/Common/setdebugnew.cpp \
     ../../src/Common/xFile/xmemfile.cpp \
     ../../src/main.cpp \
@@ -50,13 +49,15 @@ SOURCES += \
     ../../src/workscene.cpp \
     ../../src/myimageitem.cpp \
     ../../src/Controls/DrawUnit.cpp \
-    ../../src/Controls/SkinBase.cpp
+    ../../src/Controls/SkinBase.cpp \
+    ../../src/picmanager.cpp
 
 # 应用程序所需的额外的包含路径的列表
 HEADERS += \
     ../../src/UIEngine/ImageResourceManager.h \
-    ../../src/Controls/SkinBase.h \
-    ../../src/Controls/DrawUnit.h \
+    ../../src/UIEngine/handle.h \
+    ../../src/UIEngine/handlemgr.h \
+    ../../src/UIEngine/imagemgr.h \
     ../../src/Common/setdebugnew.h \
     ../../src/Common/xFile/xfile.h \
     ../../src/Common/xFile/xiofile.h \
@@ -65,7 +66,8 @@ HEADERS += \
     ../../src/workscene.h \
     ../../src/myimageitem.h \
     ../../src/Controls/DrawUnit.h \
-    ../../src/Controls/SkinBase.h
+    ../../src/Controls/SkinBase.h \
+    ../../src/picmanager.h
 
 
 # 应用程序所需的额外的包含路径的列表

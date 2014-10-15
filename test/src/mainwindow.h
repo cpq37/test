@@ -14,6 +14,8 @@ class QGraphicsScene;
 class QGraphicsView;
 class QLabel;
 class MyImageItem;
+class PicManager;
+class QDockWidget;
 
 
 class MyWidget : public QWidget
@@ -72,7 +74,7 @@ class MainWindow : public QMainWindow
      Q_OBJECT
 
 public:
-     MainWindow();
+     MainWindow(QWidget* parent=0, Qt::WindowFlags f=0);
      ~MainWindow();
 
 	 virtual void mousePressEvent(QMouseEvent *);
@@ -103,6 +105,8 @@ private:
 	 QAction*			testAction;
 
 	 MyWidget*			testWidget;
+     PicManager*        pPicManagerWidget;
+     QDockWidget*       pPicManagerDock;
 
      QLabel*            formulaLabel;
 

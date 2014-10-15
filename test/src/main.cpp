@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
     **********************************************************************/
 
     MainWindow mainWindow;
-    mainWindow.setGeometry(100, 100, 1100, 680);
+    //mainWindow.setGeometry(100, 100, 1100, 680);
+    mainWindow.resize(mainWindow.sizeHint());
     mainWindow.show();
 
 #if defined(WIN32) && defined(_DEBUG)  

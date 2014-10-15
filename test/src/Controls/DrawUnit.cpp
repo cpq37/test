@@ -10,6 +10,8 @@ CDrawUnit::CDrawUnit(void *parent, unsigned int nID)
 }
 
 CDrawUnit::CDrawUnit(void *parent, int x, int y, int width, int height)
+    : m_nID(0)
+    , m_pHandler(NULL)
 {
 	SetType("CDrawUnit");
 	m_pParent = parent;

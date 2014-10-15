@@ -8,7 +8,7 @@ class WorkScene : public QGraphicsScene
      Q_OBJECT
 
 public:
-     WorkScene(QObject *parent);
+     WorkScene(QObject *parent = 0);
      ~WorkScene();
 
 
