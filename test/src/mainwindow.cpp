@@ -188,7 +188,7 @@ void MainWindow::openDialog()
 void MainWindow::mousePressEvent(QMouseEvent *)
 {
 	//scene->sendEvent()
-	qDebug() << "MainWindow::mousePress";
+    //qDebug() << "MainWindow::mousePress";
 }
 
 void MainWindow::saveAllImage()

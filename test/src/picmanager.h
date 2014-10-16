@@ -8,6 +8,7 @@ class PicManager;
 }
 
 class QTreeWidgetItem;
+class QGraphicsScene;
 
 class PicManager : public QWidget/*, public Ui::PicManager*/
 {
@@ -25,6 +26,7 @@ private:
     bool addImages(const QString &path);
 private:
     Ui::PicManager *ui;
+    QGraphicsScene *m_pScene;
 };
 
 #endif // PICMANAGER_H

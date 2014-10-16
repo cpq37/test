@@ -4,13 +4,17 @@
 #include <QFileDialog>
 #include <QImageReader>
 #include <QDebug>
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
 
 PicManager::PicManager(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PicManager)
+    , m_pScene(NULL)
 {
     ui->setupUi(this);
 
+    //ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     ui->treeWidget->setColumnCount(2);
     QStringList treeLabels(tr("Name"));
     treeLabels += tr("Size");
@@ -31,7 +35,27 @@ void PicManager::on_addPicButton_clicked()
 
 void PicManager::on_test(QTreeWidgetItem * item, int column)
 {
-    qDebug() << column << item->text(column);
+    //qDebug() << column << item->text(column);
+
+    if( m_pScene )
+        delete m_pScene;
+    m_pScene = new QGraphicsScene(this);
+
+    QPixmap pic(item->text(column));
+    m_pScene->addPixmap(pic);
+    ui->graphicsView->setScene(m_pScene);
+
+    qreal sx = 1.0;
+    qreal sy = 1.0;
+    static qreal max_scale = qMin(sx,sy);
+    ui->graphicsView->scale(1.0/max_scale,1.0/max_scale);
+    //scale
+    sx = static_cast<qreal>(ui->graphicsView->width())/static_cast<qreal>(pic.width())*0.9;
+    sy = static_cast<qreal>(ui->graphicsView->height())/static_cast<qreal>(pic.height())*0.9;
+    //qDebug() << sx << sy;
+    max_scale = qMin(sx,sy);
+    ui->graphicsView->scale(max_scale, max_scale);
+
 }
 
 bool PicManager::addImages(const QString &path)
