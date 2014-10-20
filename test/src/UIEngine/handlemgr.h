@@ -68,7 +68,7 @@ DATA* HandleMgr <DATA, HANDLE> :: Acquire( HANDLE& handle )
         m_FreeSlots.pop_back();
         m_MagicNumbers[ index ] = handle.GetMagic();
     }
-    return ( m_UserData.begin() + index );
+    return ( &(*m_UserData.begin()) + index );
 }
 
 template <typename DATA, typename HANDLE>
@@ -103,7 +103,7 @@ inline DATA* HandleMgr <DATA, HANDLE>
         return ( 0 );
     }
 
-    return ( m_UserData.begin() + index );
+    return ( &(*m_UserData.begin()) + index );
 }
 
 template <typename DATA, typename HANDLE>

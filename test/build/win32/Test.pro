@@ -50,7 +50,9 @@ SOURCES += \
     ../../src/myimageitem.cpp \
     ../../src/Controls/DrawUnit.cpp \
     ../../src/Controls/SkinBase.cpp \
-    ../../src/picmanager.cpp
+    ../../src/picmanager.cpp \
+    ../../src/UIEngine/fui_imagesfactory.cpp \
+    ../../src/UIEngine/imagemgr.cpp
 
 # 应用程序所需的额外的包含路径的列表
 HEADERS += \
@@ -67,7 +69,8 @@ HEADERS += \
     ../../src/myimageitem.h \
     ../../src/Controls/DrawUnit.h \
     ../../src/Controls/SkinBase.h \
-    ../../src/picmanager.h
+    ../../src/picmanager.h \
+    ../../src/UIEngine/fui_imagesfactory.h
 
 
 # 应用程序所需的额外的包含路径的列表

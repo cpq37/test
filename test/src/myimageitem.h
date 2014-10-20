@@ -7,6 +7,8 @@
 
 #include "UIEngine/ImageResourceManager.h"
 
+using namespace UIEngine;
+
 class MyImageItem : public QGraphicsObject
 {
     Q_OBJECT

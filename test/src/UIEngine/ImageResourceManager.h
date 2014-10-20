@@ -4,26 +4,26 @@
 #include <string>
 #include <list>
 #include "../Common/xFile/xiofile.h"
-typedef struct
-{
-	unsigned int id;
-	unsigned int offset;
-	unsigned int width;
-	unsigned int height;
-	unsigned int size;
-}ImageInfo;
 
-typedef struct
-{
-	unsigned char		flag;
-	ImageInfo			*pImageHead;
-	const unsigned char *pDatas;
-}ImagdeData;
 
 
 namespace UIEngine
 {
+    typedef struct
+    {
+        unsigned int id;
+        unsigned int offset;
+        unsigned int width;
+        unsigned int height;
+        unsigned int size;
+    }ImageInfo;
 
+    typedef struct
+    {
+        unsigned char		flag;
+        ImageInfo			*pImageHead;
+        const unsigned char *pDatas;
+    }ImagdeData;
 	class CImageDatasManager
 	{
 	public:

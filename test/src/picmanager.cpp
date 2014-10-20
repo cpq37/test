@@ -1,5 +1,7 @@
 #include "picmanager.h"
 #include "ui_picmanager.h"
+#include "UIEngine/fui_imagesfactory.h"
+#include "myimageitem.h"
 
 #include <QFileDialog>
 #include <QImageReader>
@@ -15,10 +17,13 @@ PicManager::PicManager(QWidget *parent)
     ui->setupUi(this);
 
     //ui->graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-    ui->treeWidget->setColumnCount(2);
-    QStringList treeLabels(tr("Name"));
+    ui->treeWidget->setColumnCount(4);
+    QStringList treeLabels(tr("ID"));
+    treeLabels += tr("Name");
     treeLabels += tr("Size");
+    treeLabels += tr("Path");
     ui->treeWidget->setHeaderLabels(treeLabels);
+    ui->treeWidget->setColumnHidden(3, true);
 
     connect( ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(on_test(QTreeWidgetItem*,int)) );
 }
@@ -26,6 +31,7 @@ PicManager::PicManager(QWidget *parent)
 PicManager::~PicManager()
 {
     delete ui;
+    FUI_ImagesFactory::GetInstance()->SaveImagesToFile();
 }
 
 void PicManager::on_addPicButton_clicked()
@@ -41,7 +47,7 @@ void PicManager::on_test(QTreeWidgetItem * item, int column)
         delete m_pScene;
     m_pScene = new QGraphicsScene(this);
 
-    QPixmap pic(item->text(column));
+    QPixmap pic(item->text(3));
     m_pScene->addPixmap(pic);
     ui->graphicsView->setScene(m_pScene);
 
@@ -76,10 +82,19 @@ bool PicManager::addImages(const QString &path)
             filters += "*." + format;
 
         QList<QTreeWidgetItem *> items;
+        static int i = 0;
         foreach(QString file, dir.entryList(filters, QDir::Files))
         {
+            QStringList tempItemStr(QString("%1").arg(i++));
+            tempItemStr.append(QString("%1").arg(file));
+            tempItemStr.append(tr(""));
             file = dirName + QDir::separator() + file;
-            items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("%1").arg(file))));
+            tempItemStr.append(QString("%1").arg(file));
+            items.append(new QTreeWidgetItem((QTreeWidget*)0, tempItemStr));
+
+            MyImageItem tempPicItem(0);
+            tempPicItem.LoadImageFromFile(file);
+            FUI_ImagesFactory::GetInstance()->AddImage((const ImageData*)tempPicItem.GetImageData());
         }
 
         ui->treeWidget->addTopLevelItems(items);
