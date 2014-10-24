@@ -52,14 +52,14 @@ bool FUI_ImagesFactory::SaveImagesToFile(const char* path)
         return ret;
 
     NameIndex::iterator it_head = m_NameIndex.begin();
-    unsigned int tempOffset = 0;
+    unsigned int tempOffset = sizeof(m_nImagesCount) + sizeof(ImageInfo)*m_NameIndex.size();
     while( it_head != m_NameIndex.end() )
     {
         ImageData *pTemp =  m_Images.Dereference(it_head->second);
         pTemp->pImageHead->offset = tempOffset;
         file.Write((const void*)(pTemp->pImageHead), sizeof(ImageInfo), 1);
-        tempOffset += pTemp->pImageHead->size;
         it_head++;
+		tempOffset += pTemp->pImageHead->size;
     }
 
     NameIndex::iterator  it_datas = m_NameIndex.begin();
@@ -111,7 +111,7 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
         readSize = m_fPacketFile.Read(imageData.pImageHead, sizeof(ImageInfo), 1);
         imageData.flag = 1;
         m_nBaseOffset += sizeof(ImageInfo);
-        bool ret = m_fPacketFile.Seek(m_nBaseOffset+imageData.pImageHead->offset, SEEK_SET);
+        bool ret = m_fPacketFile.Seek(imageData.pImageHead->offset, SEEK_SET);
         if( true == ret )
         {
             int size = imageData.pImageHead->size;

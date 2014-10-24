@@ -25,10 +25,17 @@ HImage ImageMgr::AddImage(const ImageData* pBitmap)
     {
         // this is a new insertion
         memcpy(pImageData, pBitmap, sizeof(ImageData));
+		if( pBitmap->pImageHead )
+		{
+			pImageData->pImageHead = (ImageInfo *)malloc(sizeof(ImageInfo));
+			if( pImageData->pImageHead )
+				memcpy((void*)pImageData->pImageHead, (void*)pBitmap->pImageHead, sizeof(ImageInfo));
+		}
 		if( pBitmap->pDatas )
 		{
 			pImageData->pDatas = (const unsigned char*)malloc((pBitmap->pImageHead->size)*sizeof(unsigned char));
-			memcpy((void*)pImageData->pDatas, (void*)pBitmap->pDatas, pBitmap->pImageHead->size);
+			if( pImageData->pDatas )
+				memcpy((void*)pImageData->pDatas, (void*)pBitmap->pDatas, pBitmap->pImageHead->size);
 		}
         m_nImagesCount++;
 
@@ -46,12 +53,12 @@ void ImageMgr::CleanAllImages()
         {
             if( pImageData->pImageHead )
             {
-                delete pImageData->pImageHead;
+                free((void*)pImageData->pImageHead);
                 pImageData->pImageHead = NULL;
             }
             if( pImageData->pDatas )
             {
-                delete pImageData->pDatas;
+                free((void*)pImageData->pDatas);
                 pImageData->pDatas = NULL;
             }
         }

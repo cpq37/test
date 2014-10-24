@@ -85,7 +85,7 @@ void MyImageItem::LoadImageFromFile(const QString &imagePath)
 		m_Image = new QImage(imagePath);
 	}
 	QTime endTime = QTime::currentTime();
-	qDebug() << "load+decode" << startTime.msecsTo(endTime);
+	//qDebug() << "load+decode" << startTime.msecsTo(endTime);
 	qDebug() << "load+decode" << GetTickCount()-Count;
 
 }

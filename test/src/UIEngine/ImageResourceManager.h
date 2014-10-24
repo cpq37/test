@@ -21,6 +21,7 @@ namespace UIEngine
     typedef struct
     {
         unsigned char		flag;
+		//std::string			m_Name;        // for reconstruction
         ImageInfo			*pImageHead;
         const unsigned char *pDatas;
     }ImagdeData;

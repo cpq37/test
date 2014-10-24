@@ -74,15 +74,15 @@ void CImageDatasManager::AddImage(ImagdeData* pBitmap)
 		{
 			pBitmap->pImageHead->id = m_pImageHeadList.size() + 1;
 		}
-		if( 0 == m_pImageHeadList.size() )
-		{
-			pBitmap->pImageHead->offset = 0;
-		}
-		else
-		{
-			ImagdeData *pPrevImage = m_pImageHeadList.back();
-			pBitmap->pImageHead->offset = pPrevImage->pImageHead->offset + pPrevImage->pImageHead->size;
-		}
+// 		if( 0 == m_pImageHeadList.size() )
+// 		{
+// 			pBitmap->pImageHead->offset = 0;
+// 		}
+// 		else
+// 		{
+// 			ImagdeData *pPrevImage = m_pImageHeadList.back();
+// 			pBitmap->pImageHead->offset = pPrevImage->pImageHead->offset + pPrevImage->pImageHead->size;
+// 		}
 		
 		memcpy(pImageData, pBitmap, sizeof(ImagdeData));
 		m_pImageHeadList.push_back(pImageData);
@@ -132,13 +132,17 @@ void CImageDatasManager::SaveAllImages()
 
 	file.Open(TEST_FILE, "wb+");
 	file.Write(&m_nImagesCount, sizeof(m_nImagesCount), 1);
+	unsigned int tempOffset = sizeof(m_nImagesCount) + sizeof(ImageInfo)*m_pImageHeadList.size();
 
 	std::list<ImagdeData*>::iterator it_head = m_pImageHeadList.begin();
 	while( it_head != m_pImageHeadList.end() )
 	{
 		ImagdeData *pTemp = *it_head;
+		
+		pTemp->pImageHead->offset = tempOffset;
 		file.Write((const void*)(pTemp->pImageHead), sizeof(ImageInfo), 1);
 		it_head++;
+		tempOffset += pTemp->pImageHead->size;
 	}
 
 	std::list<ImagdeData*>::iterator  it_datas = m_pImageHeadList.begin();
@@ -219,7 +223,7 @@ const unsigned char* CImageDatasManager::GetImageDatasByIndex(unsigned int index
 		if( count == index )
 		{
 			ImagdeData *pImageData = *it;
-			bool ret = m_fPacketFile.Seek(m_nBaseOffset+pImageData->pImageHead->offset, SEEK_SET);
+			bool ret = m_fPacketFile.Seek(/*m_nBaseOffset+*/pImageData->pImageHead->offset, SEEK_SET);
 			if( true == ret )
 			{
 				int size = pImageData->pImageHead->size;

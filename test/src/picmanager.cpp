@@ -70,12 +70,13 @@ bool PicManager::addImages(const QString &path)
 
     if (dirName.isNull())
         dirName = QFileDialog::getExistingDirectory(this,\
-        tr("Open Image Directory"), "" );
+		tr("Open Image Directory"), "D:\\uidp4086\\Desktop", QFileDialog::ShowDirsOnly
+		| QFileDialog::DontResolveSymlinks);
 
     if( !dirName.isEmpty())
     {
 
-        // qDebug()<<dirName;
+        qDebug()<<dirName;
         QDir dir(dirName);
         QStringList filters;
         foreach(QByteArray format, QImageReader::supportedImageFormats())
@@ -90,7 +91,7 @@ bool PicManager::addImages(const QString &path)
             tempItemStr.append(tr(""));
             file = dirName + QDir::separator() + file;
             tempItemStr.append(QString("%1").arg(file));
-            items.append(new QTreeWidgetItem((QTreeWidget*)0, tempItemStr));
+            items.append(new QTreeWidgetItem((QTreeWidget*)ui->treeWidget, tempItemStr));
 
             MyImageItem tempPicItem(0);
             tempPicItem.LoadImageFromFile(file);
@@ -98,9 +99,9 @@ bool PicManager::addImages(const QString &path)
         }
 
         ui->treeWidget->addTopLevelItems(items);
-
-        foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
-            this->addImages(dirName + QDir::separator() + subDir);
+// 
+//         foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+//             this->addImages(dirName + QDir::separator() + subDir);
     }
 
     return true;

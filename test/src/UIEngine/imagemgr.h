@@ -24,7 +24,7 @@ typedef struct
 typedef struct
 {
 	unsigned char		flag;
-	std::string			m_Name;        // for reconstruction
+	//std::string			m_Name;        // for reconstruction
 	ImageInfo			*pImageHead;
 	const unsigned char *pDatas;		//还是没解决图像数据的分配，保存，释放。
 										//是否应该把文件读写放在上一层，根据实际应用考虑是否分配图像数据的空间
@@ -50,8 +50,8 @@ public:
 
 // Texture query.
 
-	const std::string& GetName( HImage himg ) const
-	{  return ( m_Images.Dereference( himg )->m_Name );  }
+// 	const std::string& GetName( HImage himg ) const
+// 	{  return ( m_Images.Dereference( himg )->m_Name );  }
 	int GetWidth( HImage himg ) const
 	{  return ( m_Images.Dereference( himg )->pImageHead->width );  }
 	int GetHeight( HImage himg ) const
