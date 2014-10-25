@@ -6,6 +6,7 @@
 #include "mainwindow.h"
 
 #include "UIEngine/ImageResourceManager.h"
+//#include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
 
 int main(int argc, char *argv[])
@@ -30,5 +31,9 @@ int main(int argc, char *argv[])
 #if defined(WIN32) && defined(_DEBUG)  
 	setFilterDebugHook();  
 #endif  
-    return a.exec();
+	a.exec();
+
+	delete CImageDatasManager::GetInstance();
+	//delete FUI_ImagesFactory::GetInstance();
+    return 0;
 }

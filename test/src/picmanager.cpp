@@ -31,7 +31,8 @@ PicManager::PicManager(QWidget *parent)
 PicManager::~PicManager()
 {
     delete ui;
-    FUI_ImagesFactory::GetInstance()->SaveImagesToFile();
+	delete FUI_ImagesFactory::GetInstance();
+    //FUI_ImagesFactory::GetInstance()->SaveImagesToFile();
 }
 
 void PicManager::on_addPicButton_clicked()

@@ -13,6 +13,7 @@ FUI_ImagesFactory::FUI_ImagesFactory()
 FUI_ImagesFactory::~FUI_ImagesFactory()
 {
     SaveImagesToFile();
+	m_singelton = NULL;
 }
 
 FUI_ImagesFactory *FUI_ImagesFactory::GetInstance()
@@ -57,6 +58,7 @@ bool FUI_ImagesFactory::SaveImagesToFile(const char* path)
     {
         ImageData *pTemp =  m_Images.Dereference(it_head->second);
         pTemp->pImageHead->offset = tempOffset;
+		pTemp->pImageHead->id	  = it_head->second.GetIndex();
         file.Write((const void*)(pTemp->pImageHead), sizeof(ImageInfo), 1);
         it_head++;
 		tempOffset += pTemp->pImageHead->size;
@@ -79,6 +81,11 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
 {
     bool ret = false;
     size_t readSize = 0;
+	if( m_nImagesCount )
+	{
+		CleanAllImages();
+	}
+
     if( NULL == file )
     {
         ret = m_fPacketFile.Open(TEST_FILE, "rb+");
@@ -97,16 +104,12 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
     readSize = m_fPacketFile.Read(&nImageCount, sizeof(m_nImagesCount), 1);
     unsigned int nBaseOffset = sizeof(nImageCount);
 
-    if( m_nImagesCount )
-    {
-        CleanAllImages();
-    }
-
     for(int i=0; i<nImageCount; i++)
     {
         ImageData imageData;
         memset(&imageData, 0, sizeof(ImageData));
-        imageData.pImageHead = new ImageInfo;
+		ImageInfo imageInfo;
+        imageData.pImageHead = &imageInfo;
         memset(imageData.pImageHead, 0, sizeof(ImageInfo));
         readSize = m_fPacketFile.Read(imageData.pImageHead, sizeof(ImageInfo), 1);
         imageData.flag = 1;
@@ -120,7 +123,11 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
 
         }
         AddImage(&imageData);
-
+		if( imageData.pDatas )
+		{
+			free((void*)imageData.pDatas);
+			imageData.pDatas = NULL;
+		}
     }
 
     return ret;

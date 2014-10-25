@@ -25,7 +25,7 @@ CImageDatasManager::~CImageDatasManager()
 		m_pDatasBuffer = NULL;
 	}
 
-	delete m_singelton;
+	//delete m_singelton;
 	m_singelton = NULL;
 }
 
@@ -69,7 +69,7 @@ void CImageDatasManager::AddImage(ImagdeData* pBitmap)
 {
 	if( NULL != pBitmap )
 	{
-		ImagdeData *pImageData = new ImagdeData;
+		//ImagdeData *pImageData = new ImagdeData;
 		if( 0 == pBitmap->pImageHead->id )
 		{
 			pBitmap->pImageHead->id = m_pImageHeadList.size() + 1;
@@ -84,8 +84,8 @@ void CImageDatasManager::AddImage(ImagdeData* pBitmap)
 // 			pBitmap->pImageHead->offset = pPrevImage->pImageHead->offset + pPrevImage->pImageHead->size;
 // 		}
 		
-		memcpy(pImageData, pBitmap, sizeof(ImagdeData));
-		m_pImageHeadList.push_back(pImageData);
+		//memcpy(pImageData, pBitmap, sizeof(ImagdeData));
+		m_pImageHeadList.push_back(pBitmap);
 		m_nImagesCount++;
 	}
 }
