@@ -36,14 +36,15 @@ public:
 
 // Lifetime.
 
-	ImageMgr( void )  {  /* ... */  }
+	ImageMgr( void ) : m_nImagesCount(0), m_nBaseOffset(0) {  /* ... */ }
     virtual ~ImageMgr( void ) { /* ... */ };
 
 
 // management.
 
     HImage		AddImage(const ImageData* pBitmap);
-    HImage		GetImage   ( const char* name );
+    HImage		GetImage(const char* name);
+	HImage		GetImage(const unsigned int bitmapID);
     //void		DeleteImage( HImage himg );
 
 	void		CleanAllImages();
@@ -56,6 +57,8 @@ public:
 	{  return ( m_Images.Dereference( himg )->pImageHead->width );  }
 	int GetHeight( HImage himg ) const
 	{  return ( m_Images.Dereference( himg )->pImageHead->height );  }
+	int GetImagesCount() const
+	{  return ( m_nImagesCount );  }
 
 protected:
 	typedef HandleMgr <ImageData, HImage> HTextureMgr;

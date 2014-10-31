@@ -4,7 +4,8 @@
 #include "workscene.h"
 #include "picmanager.h"
 
-#include "UIEngine/ImageResourceManager.h"
+//#include "UIEngine/ImageResourceManager.h"
+#include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
 
 
@@ -116,26 +117,26 @@ void MainWindow::openImage(const QString& path)
      QString fileName = path;
 	
 	
-     if (fileName.isNull())
-         fileName = QFileDialog::getOpenFileName(this,\
-         tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data *.pack)");
+	if (fileName.isNull())
+		fileName = QFileDialog::getOpenFileName(this,\
+		tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data *.pack)");
 	QTime startTime = QTime::currentTime();
      if( !fileName.isEmpty())
      {
 		 if( fileName.endsWith(tr(".pack")) )
 		 {
-			 if(UIEngine::CImageDatasManager::GetInstance()->ReadImagePacket( fileName.toStdString().data() ) )
+			 if(FUI_ImagesFactory::GetInstance()->ReadImagePacket( fileName.toStdString().data() ) )
 			 {
 				 qDebug() << "Read packet time:" << QTime::currentTime().secsTo(startTime);
 				 int i = 0;
-				 int count = UIEngine::CImageDatasManager::GetInstance()->GetImagesCount();
+				 int count = FUI_ImagesFactory::GetInstance()->GetImagesCount();
 				 for(i=0; i< count; i++)
 				 {
-					MyImageItem* imageItem = new MyImageItem();
-					const unsigned  char *tempBuffer = UIEngine::CImageDatasManager::GetInstance()->\
-						GetImageDatasByIndex(i, imageItem->GetImageData());
-					qDebug() << "Read one picture:" << QTime::currentTime().secsTo(startTime);
-					imageItem->LoadImageFromDatas(tempBuffer);
+					CSkinImageItem* imageItem = new CSkinImageItem();
+// 					const unsigned  char *tempBuffer = UIEngine::CImageDatasManager::GetInstance()->\
+// 						GetImageDatasByIndex(i, imageItem->GetImageData());
+// 					qDebug() << "Read one picture:" << QTime::currentTime().secsTo(startTime);
+// 					imageItem->LoadImageFromDatas(tempBuffer);
 					scene->addItem(imageItem);
 					scene->update(scene->sceneRect());
 					m_ImageList.push_back(imageItem);
@@ -193,27 +194,27 @@ void MainWindow::mousePressEvent(QMouseEvent *)
 
 void MainWindow::saveAllImage()
 {
-	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
-	while( it != m_ImageList.end() )
-	{
-		MyImageItem *tempImageItem = *it;
-		tempImageItem->SaveImage("test.data");
-		it++;
-	}
+// 	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
+// 	while( it != m_ImageList.end() )
+// 	{
+// 		MyImageItem *tempImageItem = *it;
+// 		tempImageItem->SaveImage("test.data");
+// 		it++;
+// 	}
 }
 
 
 void MainWindow::test()
 {
-	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
-	UIEngine::CImageDatasManager::GetInstance()->CleanAllImages();
-	while( it != m_ImageList.end() )
-	{
-		MyImageItem *tempImageItem = *it;
-		UIEngine::CImageDatasManager::GetInstance()->AddImage(tempImageItem->GetImageData());
-		it++;
-	}
-
-	UIEngine::CImageDatasManager::GetInstance()->SaveAllImages();
+// 	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
+// 	UIEngine::CImageDatasManager::GetInstance()->CleanAllImages();
+// 	while( it != m_ImageList.end() )
+// 	{
+// 		MyImageItem *tempImageItem = *it;
+// 		UIEngine::CImageDatasManager::GetInstance()->AddImage(tempImageItem->GetImageData());
+// 		it++;
+// 	}
+// 
+// 	UIEngine::CImageDatasManager::GetInstance()->SaveAllImages();
 }
 

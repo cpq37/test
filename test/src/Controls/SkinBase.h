@@ -20,9 +20,9 @@ namespace SkinCtrl
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 		QRectF boundingRect()const;
 
-signals:
+	signals:
 
-		public slots:	
+	public slots:	
 
 	protected:
 		// 鼠标事件（继承类请不要使用以下的虚函数）

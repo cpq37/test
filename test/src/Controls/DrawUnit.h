@@ -43,18 +43,18 @@ public:
 	virtual ~CDrawUnit(void);
 
 	virtual void Draw(void * handler) = 0;
-	virtual void ReDraw() = 0;
+	//virtual void ReDraw() = 0;
 	void SetType(const string &type);
 	bool IsKindOf(const string &kind);
 	//设置控件区域
-	void SetRect(const SRect &pos);
+	void SetRect(const SRect &rect);
 	//获取控件区域
 	SRect GetRect() const;
 	//void move(const Struct_position &pos);
 	
 protected:
 	bool IsInClientArea(int x, int y);
-	SRect m_sPosition;
+	SRect m_sRect;
 	string			m_strType;
 	void*			m_pParent;
 	void*			m_pHandler;

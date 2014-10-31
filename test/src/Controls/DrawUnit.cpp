@@ -15,10 +15,10 @@ CDrawUnit::CDrawUnit(void *parent, int x, int y, int width, int height)
 {
 	SetType("CDrawUnit");
 	m_pParent = parent;
-	m_sPosition.x = x;
-	m_sPosition.y = y;
-	m_sPosition.width = width;
-	m_sPosition.height = height;
+	m_sRect.x = x;
+	m_sRect.y = y;
+	m_sRect.width = width;
+	m_sRect.height = height;
 }
 
 CDrawUnit::~CDrawUnit(void)
@@ -40,9 +40,9 @@ bool CDrawUnit::IsKindOf(const string &kind)
 *   功能：  设置控件区域
 *
 ******************************************************************************/
-void CDrawUnit::SetRect(const SRect &pos)
+void CDrawUnit::SetRect(const SRect &rect)
 {
-	m_sPosition = pos;
+	m_sRect = rect;
 }
 
 /******************************************************************************
@@ -52,13 +52,13 @@ void CDrawUnit::SetRect(const SRect &pos)
 ******************************************************************************/
 SRect CDrawUnit::GetRect() const
 {
-	return m_sPosition;
+	return m_sRect;
 }
 
 bool CDrawUnit::IsInClientArea(int x, int y)
 {
-	if ( !((m_sPosition.x > x)||((m_sPosition.x + m_sPosition.width) < x )) 
-		&& !((m_sPosition.y > y)||((m_sPosition.y + m_sPosition.height) < y ))  ) 
+	if ( !((m_sRect.x > x)||((m_sRect.x + m_sRect.width) < x )) 
+		&& !((m_sRect.y > y)||((m_sRect.y + m_sRect.height) < y ))  ) 
 	{
 		return true;
 	}

@@ -87,3 +87,13 @@ HImage	ImageMgr::GetImage( const char* name )
 // 	}
     return ( it->second );
 }
+
+HImage ImageMgr::GetImage(const unsigned int bitmapID)
+{
+	NameIndex::iterator it = m_NameIndex.begin();
+	while (it != m_NameIndex.end())
+	{
+		if( bitmapID == it->second.GetIndex() )
+			return it->second;
+	}
+}

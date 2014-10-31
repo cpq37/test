@@ -1,13 +1,15 @@
 #include "picmanager.h"
 #include "ui_picmanager.h"
 #include "UIEngine/fui_imagesfactory.h"
-#include "myimageitem.h"
+#include "Controls/SkinImageItem.h"
 
 #include <QFileDialog>
 #include <QImageReader>
 #include <QDebug>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+
+using namespace SkinCtrl;
 
 PicManager::PicManager(QWidget *parent)
     : QWidget(parent)
@@ -94,15 +96,14 @@ bool PicManager::addImages(const QString &path)
             tempItemStr.append(QString("%1").arg(file));
             items.append(new QTreeWidgetItem((QTreeWidget*)ui->treeWidget, tempItemStr));
 
-            MyImageItem tempPicItem(0);
+            CSkinImageItem tempPicItem(0,0);
             tempPicItem.LoadImageFromFile(file);
-            FUI_ImagesFactory::GetInstance()->AddImage((const ImageData*)tempPicItem.GetImageData());
         }
 
         ui->treeWidget->addTopLevelItems(items);
-// 
-//         foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
-//             this->addImages(dirName + QDir::separator() + subDir);
+
+        foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+            this->addImages(dirName + QDir::separator() + subDir);
     }
 
     return true;

@@ -45,7 +45,7 @@ void CSkinBase::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 ******************************************************************************/
 QRectF CSkinBase::boundingRect(void) const
 {
-	return QRectF(m_sPosition.x, m_sPosition.y, m_sPosition.width, m_sPosition.height);
+	return QRectF(m_sRect.x, m_sRect.y, m_sRect.width, m_sRect.height);
 }
 
 /******************************************************************************

@@ -13,7 +13,7 @@ class WorkScene;
 class QGraphicsScene;
 class QGraphicsView;
 class QLabel;
-class MyImageItem;
+class CSkinImageItem;
 class PicManager;
 class QDockWidget;
 
@@ -116,7 +116,7 @@ private:
 
 	 Ui::Dialog*		testTreeDialog;
 	
-	 std::list<MyImageItem*>  m_ImageList;
+	 std::list<CSkinImageItem*>  m_ImageList;
 };
 
 
