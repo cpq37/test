@@ -5,6 +5,8 @@
 #include <list>
 #include <QMainWindow>
 #include <QGraphicsView.h>
+#include <QWheelEvent>
+#include <cmath>
 
 //#include "myimageitem.h"
 #include "Controls/SkinImageItem.h"
@@ -68,6 +70,15 @@ public:
 	}
 	void Init(void)
 	{
+	}
+
+protected:
+	void wheelEvent(QWheelEvent *event)
+	{
+		double numDegrees = -event->delta() / 8.0;
+		double numSteps = numDegrees / 15.0;
+		double factor = std::pow(1.125, numSteps);
+		scale(factor, factor);
 	}
 };
 

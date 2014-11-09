@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 	addDockWidget(Qt::LeftDockWidgetArea,pPicManagerDock);  
 
     scene = new WorkScene(this);
-    scene->setSceneRect( QRectF(0, 0, 800, 480) );
+    scene->setSceneRect( QRectF(-1, -1, 800+4, 480+4) );
     view = new MyGraphicsView(scene);
     //view->resize(800, 480);
 
