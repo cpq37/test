@@ -114,46 +114,47 @@ void MainWindow::createStatusBar()
 
 void MainWindow::openImage(const QString& path)
 {
-     QString fileName = path;
+	
+	QString fileName;
 	
 	
 	if (fileName.isNull())
 		fileName = QFileDialog::getOpenFileName(this,\
 		tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp *.gif *.data *.pack)");
 	QTime startTime = QTime::currentTime();
-     if( !fileName.isEmpty())
-     {
-		 if( fileName.endsWith(tr(".pack")) )
-		 {
-			 if(FUI_ImagesFactory::GetInstance()->ReadImagePacket( fileName.toStdString().data() ) )
-			 {
-				 qDebug() << "Read packet time:" << QTime::currentTime().secsTo(startTime);
-				 int i = 0;
-				 int count = FUI_ImagesFactory::GetInstance()->GetImagesCount();
-				 for(i=0; i< count; i++)
-				 {
-					CSkinImageItem* imageItem = new CSkinImageItem();
-// 					const unsigned  char *tempBuffer = UIEngine::CImageDatasManager::GetInstance()->\
-// 						GetImageDatasByIndex(i, imageItem->GetImageData());
-// 					qDebug() << "Read one picture:" << QTime::currentTime().secsTo(startTime);
-// 					imageItem->LoadImageFromDatas(tempBuffer);
-					scene->addItem(imageItem);
+	if( !fileName.isEmpty())
+	{
+		if( fileName.endsWith(tr(".pack")) )
+		{
+			static string tempPath(fileName.toStdString());
+
+			bool ret = FUI_ImagesFactory::GetInstance()->ReadImagePacket( tempPath.c_str() );
+			if(ret)
+			{
+				qDebug() << "Read packet time:" << QTime::currentTime().secsTo(startTime);
+				int i = 0;
+				int count = FUI_ImagesFactory::GetInstance()->GetImagesCount();
+				for(i=0; i< count; i++)
+				{
+					CSkinImageItem* imageItem = new CSkinImageItem(i);
+					imageItem->LoadImageFromHImage(FUI_ImagesFactory::GetInstance()->GetImage(i));
+					scene->addItem((QGraphicsItem*)(imageItem));
 					scene->update(scene->sceneRect());
 					m_ImageList.push_back(imageItem);
-				 }
-			 }
-			 qDebug() << "all time:" << QTime::currentTime().secsTo(startTime);
-		 }
-		 else
-		 {
-			 MyImageItem* imageItem = new MyImageItem();
-			 imageItem->LoadImageFromFile(fileName);
-			 scene->addItem(imageItem);
-			 scene->update(scene->sceneRect());
-			 m_ImageList.push_back(imageItem);
-		 }
+				}
+			}
+			qDebug() << "all time:" << QTime::currentTime().secsTo(startTime);
+		}
+		else
+		{
+			CSkinImageItem* imageItem = new CSkinImageItem();
+			imageItem->LoadImageFromFile(fileName);
+			scene->addItem(imageItem);
+			scene->update(scene->sceneRect());
+			m_ImageList.push_back(imageItem);
+		}
 
-     }
+	}
 	
 }
 

@@ -6,17 +6,19 @@
 #include <QMainWindow>
 #include <QGraphicsView.h>
 
-#include "myimageitem.h"
+//#include "myimageitem.h"
+#include "Controls/SkinImageItem.h"
 #include "ui_TestUI.h"
 
 class WorkScene;
 class QGraphicsScene;
 class QGraphicsView;
 class QLabel;
-class CSkinImageItem;
+//class CSkinImageItem;
 class PicManager;
 class QDockWidget;
 
+using namespace SkinCtrl;
 
 class MyWidget : public QWidget
 {

@@ -37,7 +37,9 @@ namespace SkinCtrl
 
 		//using by paint,to draw,to update
 		virtual void Draw(void *painter = NULL)=0;
+
 		//draw image
+		void DrawPixmap(void* painter, int x, int y, const QPixmap *ppix) const;
 		//draw text
 	protected:
 		//QSizeF m_size;

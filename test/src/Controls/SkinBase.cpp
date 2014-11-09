@@ -1,4 +1,5 @@
 #include <QGraphicsSceneMouseEvent>
+#include <QPainter>
 
 #include "SkinBase.h"
 
@@ -76,4 +77,14 @@ void CSkinBase::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void CSkinBase::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	OnMouseMove(event->pos());
+}
+
+/******************************************************************************
+*
+*   ¹¦ÄÜ£ºÌùÍ¼º¯Êý
+*
+******************************************************************************/
+void CSkinBase::DrawPixmap(void *painter, int x, int y, const QPixmap *ppix) const
+{
+	((QPainter*)painter)->drawPixmap(0, 0, *ppix);
 }

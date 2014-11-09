@@ -17,11 +17,16 @@ namespace SkinCtrl
 		CSkinImageItem(unsigned int nID = 0, void *parent = NULL);
 		~CSkinImageItem();
 
-		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+		//void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 		QRectF boundingRect()const;
 		virtual void Draw(void *painter = NULL);
 
+		void mouseMoveEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mouseMoveEvent(event);}
+		void mousePressEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mousePressEvent(event);}
+		void mouseReleaseEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mouseReleaseEvent(event);}
+
 		void LoadImageFromFile(const QString& imagePath);
+		void LoadImageFromHImage(HImage himg);
 		//ImagdeData *GetImageData();
 
 	private:

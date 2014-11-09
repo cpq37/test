@@ -95,5 +95,12 @@ HImage ImageMgr::GetImage(const unsigned int bitmapID)
 	{
 		if( bitmapID == it->second.GetIndex() )
 			return it->second;
+
+		it++;
 	}
+}
+
+const ImageData* ImageMgr::GetImageData(HImage himg)
+{
+	return m_Images.Dereference( himg );
 }

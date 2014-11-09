@@ -12,7 +12,7 @@
 struct tagImage  {  };
 typedef Handle <tagImage> HImage;
 
-typedef struct
+typedef struct _ImageInfo
 {
 	unsigned int id;
 	unsigned int offset;
@@ -25,7 +25,7 @@ typedef struct
 {
 	unsigned char		flag;
 	//std::string			m_Name;        // for reconstruction
-	ImageInfo			*pImageHead;
+	::ImageInfo			*pImageHead;
 	const unsigned char *pDatas;		//还是没解决图像数据的分配，保存，释放。
 										//是否应该把文件读写放在上一层，根据实际应用考虑是否分配图像数据的空间
 }ImageData;
@@ -46,6 +46,7 @@ public:
     HImage		GetImage(const char* name);
 	HImage		GetImage(const unsigned int bitmapID);
     //void		DeleteImage( HImage himg );
+	const ImageData* GetImageData(HImage himg); 
 
 	void		CleanAllImages();
 

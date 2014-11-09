@@ -12,6 +12,7 @@ FUI_ImagesFactory::FUI_ImagesFactory()
 
 FUI_ImagesFactory::~FUI_ImagesFactory()
 {
+	m_fPacketFile.Close();
     SaveImagesToFile();
 	m_singelton = NULL;
 }
@@ -102,9 +103,9 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
 
     unsigned int nImageCount = 0;
     readSize = m_fPacketFile.Read(&nImageCount, sizeof(m_nImagesCount), 1);
-    unsigned int nBaseOffset = sizeof(nImageCount);
+    m_nBaseOffset = sizeof(nImageCount);
 
-    for(int i=0; i<nImageCount; i++)
+    for(unsigned int i=0; i<nImageCount; i++)
     {
         ImageData imageData;
         memset(&imageData, 0, sizeof(ImageData));
@@ -128,8 +129,10 @@ bool FUI_ImagesFactory::ReadImagePacket(const char* file)
 			free((void*)imageData.pDatas);
 			imageData.pDatas = NULL;
 		}
+		m_fPacketFile.Seek(m_nBaseOffset, SEEK_SET);
     }
 
+	ret = m_fPacketFile.Close();
     return ret;
 }
 

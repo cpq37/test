@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 #endif  
 	a.exec();
 
-	delete CImageDatasManager::GetInstance();
+	//delete CImageDatasManager::GetInstance();
 	//delete FUI_ImagesFactory::GetInstance();
     return 0;
 }
