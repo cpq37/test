@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QImageReader>
 #include <QDebug>
+#include <QTime>
 
 using namespace SkinCtrl;
 
@@ -98,7 +99,7 @@ void CSkinImageItem::LoadImageFromFile(const QString &imagePath)
 		//if(p_ImageData->pDatas)
 		//	delete p_ImageData->pDatas;
 
-		 p_ImageData;
+		delete p_ImageData;
 	}
 }
 
@@ -107,9 +108,11 @@ void CSkinImageItem::Draw(void *painter /* = NULL */)
 	if( m_pImage != NULL && this->childItems().size() == 0)
 	{
 		((QPainter*)painter)->setRenderHint(QPainter::Antialiasing, true);
+		//QTime startTime = QTime::currentTime();
 		QPixmap pixmapToShow = QPixmap::fromImage( m_pImage->scaled(m_pImage->size(), Qt::KeepAspectRatio) );  
 		//((QPainter*)painter)->drawPixmap(0, 0, pixmapToShow);
 		DrawPixmap(painter, 0, 0, &pixmapToShow);
+		//qDebug() << "paint" << QTime::currentTime().msecsTo(startTime);
 	}
 }
 

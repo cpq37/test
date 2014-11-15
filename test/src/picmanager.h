@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "ui_picmanager.h"
+
 namespace Ui {
 class PicManager;
 }
@@ -10,7 +12,7 @@ class PicManager;
 class QTreeWidgetItem;
 class QGraphicsScene;
 
-class PicManager : public QWidget/*, public Ui::PicManager*/
+class PicManager : public QWidget, public Ui_PicManager
 {
     Q_OBJECT
     
@@ -21,12 +23,16 @@ public:
 public slots:
     void on_addPicButton_clicked();
     void on_test(QTreeWidgetItem * item, int column);
-
+protected:
+	void contextMenuEvent(QContextMenuEvent* e);
 private:
     bool addImages(const QString &path);
+	void createActions(void);
+	void createTreeWidget(void);
 private:
-    Ui::PicManager *ui;
-    QGraphicsScene *m_pScene;
+    //Ui::PicManager *ui;
+    QGraphicsScene	*m_pScene;
+	QAction			*deleteAction;
 };
 
 #endif // PICMANAGER_H

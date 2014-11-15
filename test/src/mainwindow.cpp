@@ -6,7 +6,7 @@
 
 //#include "UIEngine/ImageResourceManager.h"
 #include "UIEngine/fui_imagesfactory.h"
-//#include "Common/setdebugnew.h"
+#include "Common/setdebugnew.h"
 
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -129,12 +129,12 @@ void MainWindow::openImage(const QString& path)
 	{
 		if( fileName.endsWith(tr(".pack")) )
 		{
-			static string tempPath(fileName.toStdString());
+			/*static */string tempPath(fileName.toStdString());
 
 			bool ret = FUI_ImagesFactory::GetInstance()->ReadImagePacket( tempPath.c_str() );
 			if(ret)
 			{
-				qDebug() << "Read packet time:" << QTime::currentTime().secsTo(startTime);
+				qDebug() << "Read packet time:" << QTime::currentTime().msecsTo(startTime);
 				int i = 0;
 				int count = FUI_ImagesFactory::GetInstance()->GetImagesCount();
 				for(i=0; i< count; i++)
@@ -142,11 +142,11 @@ void MainWindow::openImage(const QString& path)
 					CSkinImageItem* imageItem = new CSkinImageItem(i);
 					imageItem->LoadImageFromHImage(FUI_ImagesFactory::GetInstance()->GetImage(i));
 					scene->addItem((QGraphicsItem*)(imageItem));
-					scene->update(scene->sceneRect());
 					m_ImageList.push_back(imageItem);
 				}
 			}
-			qDebug() << "all time:" << QTime::currentTime().secsTo(startTime);
+			qDebug() << "all time:" << QTime::currentTime().msecsTo(startTime);
+			scene->update(scene->sceneRect());
 		}
 		else
 		{

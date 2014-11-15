@@ -7,6 +7,7 @@
 #include <QGraphicsView.h>
 #include <QWheelEvent>
 #include <cmath>
+#include <QDebug>
 
 //#include "myimageitem.h"
 #include "Controls/SkinImageItem.h"
@@ -45,14 +46,48 @@ class MyGraphicsView : public QGraphicsView
 public:
 	MyGraphicsView(QWidget *parent = 0) : QGraphicsView(parent)
 	{
-		//Init();
+		Init();
 	}
 	MyGraphicsView(QGraphicsScene *scene, QWidget *parent = 0) : QGraphicsView(scene,parent)
 	{
-		//Init();
+		Init();
 	}
 	virtual ~MyGraphicsView(void){}
 
+
+	void Init(void)
+	{
+		m_bScale = false;
+	}
+
+protected:
+	bool m_bScale;
+	void keyPressEvent ( QKeyEvent * event )
+	{
+		if( event->key() == Qt::Key_Control )
+		{
+			m_bScale = true;
+		}
+	}
+	void keyReleaseEvent ( QKeyEvent * event )
+	{
+		if( event->key() == Qt::Key_Control )
+		{
+			m_bScale = false;
+		}
+	}
+	void wheelEvent(QWheelEvent *event)
+	{
+		if( m_bScale )
+		{
+			double numDegrees = -event->delta() / 8.0;
+			double numSteps = numDegrees / 15.0;
+			double factor = std::pow(1.025, numSteps);
+			scale(factor, factor);
+			//qDebug() << transform().m11() << transform().m22();
+		}
+
+	}
 	void paintEvent(QPaintEvent *event)
 	{
 		QPixmap pm(40, 40);
@@ -67,18 +102,6 @@ public:
 		setAutoFillBackground(true);
 		setPalette(pal);
 		QGraphicsView::paintEvent(event);
-	}
-	void Init(void)
-	{
-	}
-
-protected:
-	void wheelEvent(QWheelEvent *event)
-	{
-		double numDegrees = -event->delta() / 8.0;
-		double numSteps = numDegrees / 15.0;
-		double factor = std::pow(1.125, numSteps);
-		scale(factor, factor);
 	}
 };
 

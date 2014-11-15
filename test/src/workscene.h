@@ -15,7 +15,7 @@ public:
 protected:
 
 private:
-
+	QGraphicsRectItem *m_pRect;
 };
 
 
