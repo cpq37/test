@@ -4,6 +4,7 @@
 #include "SkinBase.h"
 #include "../UIEngine/imagemgr.h"
 
+#include <QDebug>
 class QImage;
 
 
@@ -22,7 +23,7 @@ namespace SkinCtrl
 		virtual void Draw(void *painter = NULL);
 
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mouseMoveEvent(event);}
-		void mousePressEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mousePressEvent(event);}
+		void mousePressEvent(QGraphicsSceneMouseEvent *event){qDebug()<<this->pos().x()<<this->pos().y();QGraphicsObject::mousePressEvent(event);}
 		void mouseReleaseEvent(QGraphicsSceneMouseEvent *event){QGraphicsObject::mouseReleaseEvent(event);}
 
 		void LoadImageFromFile(const QString& imagePath);

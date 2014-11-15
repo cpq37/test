@@ -5,14 +5,14 @@
 
 #include "mainwindow.h"
 
-#include "UIEngine/ImageResourceManager.h"
-//#include "UIEngine/fui_imagesfactory.h"
+//#include "UIEngine/ImageResourceManager.h"
+#include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
 
 int main(int argc, char *argv[])
 {
 #ifdef _DEBUG 
-	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );//_CrtSetBreakAlloc(20804);
 #endif
 
     QApplication a(argc, argv);
@@ -24,16 +24,16 @@ int main(int argc, char *argv[])
     **********************************************************************/
 
     MainWindow mainWindow;
-    //mainWindow.setGeometry(100, 100, 1100, 680);
-    mainWindow.resize(mainWindow.sizeHint());
+    mainWindow.setGeometry(100, 100, 1100, 680);
+    //mainWindow.resize(mainWindow.sizeHint());
     mainWindow.show();
 
 #if defined(WIN32) && defined(_DEBUG)  
-	setFilterDebugHook();  
+	//setFilterDebugHook();  
 #endif  
 	a.exec();
 
 	//delete CImageDatasManager::GetInstance();
-	//delete FUI_ImagesFactory::GetInstance();
+	delete FUI_ImagesFactory::GetInstance();
     return 0;
 }

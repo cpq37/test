@@ -48,7 +48,7 @@ void ImageMgr::CleanAllImages()
     NameIndex::iterator it = m_NameIndex.begin();
     while (it != m_NameIndex.end())
     {
-        ImageData *pImageData = m_Images.Acquire(it->second);
+        ImageData *pImageData = m_Images.Dereference(it->second);
         if( pImageData )
         {
             if( pImageData->pImageHead )
@@ -62,12 +62,13 @@ void ImageMgr::CleanAllImages()
                 pImageData->pDatas = NULL;
             }
         }
-        delete pImageData;
-        pImageData = NULL;
-        // delete from index
-        m_NameIndex.erase(it);
+        //delete pImageData;
+        //pImageData = NULL;
+
         // delete from db
         m_Images.Release(it->second);
+		// delete from index
+		//m_NameIndex.erase(it);
         it++;
     }
 

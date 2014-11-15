@@ -2,6 +2,8 @@
 #include "ui_picmanager.h"
 #include "UIEngine/fui_imagesfactory.h"
 #include "Controls/SkinImageItem.h"
+#include "myimageitem.h"
+#include "Common/setdebugnew.h"
 
 #include <QFileDialog>
 #include <QImageReader>
@@ -32,8 +34,11 @@ PicManager::PicManager(QWidget *parent)
 
 PicManager::~PicManager()
 {
+	if( m_pScene )
+		delete m_pScene;
+
     delete ui;
-	delete FUI_ImagesFactory::GetInstance();
+	//delete FUI_ImagesFactory::GetInstance();
     //FUI_ImagesFactory::GetInstance()->SaveImagesToFile();
 }
 
@@ -82,10 +87,14 @@ bool PicManager::addImages(const QString &path)
         qDebug()<<dirName;
         QDir dir(dirName);
         QStringList filters;
-        foreach(QByteArray format, QImageReader::supportedImageFormats())
-            filters += "*." + format;
+		filters.append(QString("*.jpg"));
+		filters.append(QString("*.jpeg"));
+		filters.append(QString("*.png"));
+		filters.append(QString("*.bmp"));
+//         foreach(QByteArray format, QImageReader::supportedImageFormats())
+//             filters += "*." + format;
 
-        QList<QTreeWidgetItem *> items;
+        QList<QTreeWidgetItem *> items; 
         static int i = 0;
         foreach(QString file, dir.entryList(filters, QDir::Files))
         {
@@ -97,10 +106,13 @@ bool PicManager::addImages(const QString &path)
             items.append(new QTreeWidgetItem((QTreeWidget*)ui->treeWidget, tempItemStr));
 
             CSkinImageItem tempPicItem(0,0);
+			//MyImageItem tempPicItem(0);
             tempPicItem.LoadImageFromFile(file);
+			//FUI_ImagesFactory::GetInstance()->AddImage((const ImageData*)tempPicItem.GetImageData());
         }
 
         ui->treeWidget->addTopLevelItems(items);
+
 
         foreach(QString subDir, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
             this->addImages(dirName + QDir::separator() + subDir);

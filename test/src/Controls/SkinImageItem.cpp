@@ -3,6 +3,8 @@
 #include "../Common/setdebugnew.h"
 
 #include <QPainter>
+#include <QImageReader>
+#include <QDebug>
 
 using namespace SkinCtrl;
 
@@ -60,39 +62,43 @@ void CSkinImageItem::LoadImageFromFile(const QString &imagePath)
 		m_pImage = NULL;
 	}
 
-	m_pImage = new QImage(imagePath);
+	if( NULL == m_pImage )
+	{
+		//QImage test(imagePath);
+ 		m_pImage = new QImage(imagePath); //在Qt4.7.1中，不管采用任何方式读取图像文件都会导致内存泄漏，不知道原因
+	}
 
 	// new temp
-	ImageData *m_ImageData = new ImageData;
-	if(m_ImageData)
-		memset(m_ImageData, 0, sizeof(ImageData));
+	ImageData *p_ImageData = new ImageData;//(ImageData*)malloc(sizeof(ImageData));
+	if(p_ImageData)
+		memset(p_ImageData, 0, sizeof(ImageData));
 
-	if( NULL == m_ImageData->pImageHead )
+	if( NULL == p_ImageData->pImageHead )
 	{
-		m_ImageData->pImageHead = new ImageInfo;
-		if(m_ImageData->pImageHead)
-			memset(m_ImageData->pImageHead, 0, sizeof(ImageInfo));
+		p_ImageData->pImageHead = new ImageInfo;
+		if(p_ImageData->pImageHead)
+			memset(p_ImageData->pImageHead, 0, sizeof(ImageInfo));
 	}
 
 	if( m_pImage )
 	{
-		m_ImageData->pImageHead->size = m_pImage->byteCount();
-		m_ImageData->pImageHead->width = m_pImage->width();
-		m_ImageData->pImageHead->height = m_pImage->height();
-		m_ImageData->pDatas = m_pImage->bits();
+		p_ImageData->pImageHead->size = m_pImage->byteCount();
+		p_ImageData->pImageHead->width = m_pImage->width();
+		p_ImageData->pImageHead->height = m_pImage->height();
+		p_ImageData->pDatas = m_pImage->bits();
 	}
 
-	m_hImage = FUI_ImagesFactory::GetInstance()->AddImage(m_ImageData);
+	m_hImage = FUI_ImagesFactory::GetInstance()->AddImage(p_ImageData);
 
 	//delet all
-	if( m_ImageData )
+	if( p_ImageData )
 	{
-		if(m_ImageData->pImageHead)
-			delete m_ImageData->pImageHead;
-// 		if(m_ImageData->pDatas)
-// 			delete m_ImageData->pDatas;
+		if(p_ImageData->pImageHead)
+			delete p_ImageData->pImageHead;
+		//if(p_ImageData->pDatas)
+		//	delete p_ImageData->pDatas;
 
-		delete m_ImageData;
+		 p_ImageData;
 	}
 }
 

@@ -6,7 +6,7 @@
 
 //#include "UIEngine/ImageResourceManager.h"
 #include "UIEngine/fui_imagesfactory.h"
-#include "Common/setdebugnew.h"
+//#include "Common/setdebugnew.h"
 
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
@@ -16,9 +16,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     createMenus();
     createStatusBar();
 
-	testWidget = new MyWidget;
+	// !test code
+	testWidget = new MyWidget();
 	testTreeDialog = new Ui::Dialog();
 	testTreeDialog->setupUi( (QDialog*)testWidget);
+	// test code !
 
     pPicManagerDock = new QDockWidget(tr("Picture Manager"), this);
     //pPicManagerDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -30,15 +32,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 	addDockWidget(Qt::LeftDockWidgetArea,pPicManagerDock);  
 
     scene = new WorkScene(this);
-    scene->setSceneRect( QRectF(-1, -1, 800+4, 480+4) );
-    view = new MyGraphicsView(scene);
-    //view->resize(800, 480);
-
-//    QHBoxLayout* layout = new QHBoxLayout(this);
-//    layout->addWidget( view );
-//    QWidget* widget = new QWidget(this);
-//    widget->setLayout(layout);
-
+    scene->setSceneRect( QRectF(-1, -1, 800+2, 480+2) );
+    view = new MyGraphicsView(scene, this);
+    //view->resize(800+4, 480+4);
     setCentralWidget( view );
 }
 
@@ -46,6 +42,13 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
 MainWindow::~MainWindow()
 {
+	while( m_ImageList.size() )
+	{
+		std::list<CSkinImageItem*>::iterator it = m_ImageList.begin();
+		delete (*it);
+		m_ImageList.pop_front();
+	}
+
 	if( testTreeDialog )
 	{
 		delete testTreeDialog;

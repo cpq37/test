@@ -14,6 +14,7 @@ FUI_ImagesFactory::~FUI_ImagesFactory()
 {
 	m_fPacketFile.Close();
     SaveImagesToFile();
+	CleanAllImages();
 	m_singelton = NULL;
 }
 
