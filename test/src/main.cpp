@@ -9,10 +9,14 @@
 #include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
+
 int main(int argc, char *argv[])
 {
 #ifdef _DEBUG 
-	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );//_CrtSetBreakAlloc(20804);
+	//_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );//_CrtSetBreakAlloc(20804);
 #endif
 
     QApplication a(argc, argv);

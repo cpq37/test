@@ -13,6 +13,10 @@
 #include <QMenu>
 #include <QContextMenuEvent>
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
+
 using namespace SkinCtrl;
 
 PicManager::PicManager(QWidget *parent)

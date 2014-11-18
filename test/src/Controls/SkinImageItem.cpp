@@ -7,6 +7,10 @@
 #include <QDebug>
 #include <QTime>
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
+
 using namespace SkinCtrl;
 
 CSkinImageItem::CSkinImageItem(unsigned int nID, void *parent )
@@ -66,7 +70,7 @@ void CSkinImageItem::LoadImageFromFile(const QString &imagePath)
 	if( NULL == m_pImage )
 	{
 		//QImage test(imagePath);
- 		m_pImage = new QImage(imagePath); //在Qt4.7.1中，不管采用任何方式读取图像文件都会导致内存泄漏，不知道原因
+ 		m_pImage = new QImage(imagePath); 
 	}
 
 	// new temp

@@ -1,6 +1,11 @@
 
 #include "imagemgr.h"
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
+
+
 HImage ImageMgr::AddImage(const ImageData* pBitmap)
 {
     assert(pBitmap);

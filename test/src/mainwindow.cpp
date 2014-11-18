@@ -8,6 +8,9 @@
 #include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
 
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : QMainWindow(parent, f)
@@ -42,12 +45,12 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
 
 MainWindow::~MainWindow()
 {
-	while( m_ImageList.size() )
-	{
-		std::list<CSkinImageItem*>::iterator it = m_ImageList.begin();
-		delete (*it);
-		m_ImageList.pop_front();
-	}
+// 	while( m_ImageList.size() )
+// 	{
+// 		std::list<CSkinImageItem*>::iterator it = m_ImageList.begin();
+// 		delete (*it);
+// 		m_ImageList.pop_front();
+// 	}
 
 	if( testTreeDialog )
 	{

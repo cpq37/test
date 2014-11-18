@@ -1,5 +1,8 @@
 #include "fui_imagesfactory.h"
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
 
 #define TEST_FILE "test.pack"
 

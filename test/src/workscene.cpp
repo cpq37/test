@@ -3,6 +3,10 @@
 #include "workscene.h"
 #include "Common/setdebugnew.h"
 
+#ifdef _DEBUG 
+#include "vld.h" 
+#endif
+
 WorkScene::WorkScene(QObject *parent)
 
      : QGraphicsScene(parent)

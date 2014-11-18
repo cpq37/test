@@ -1,4 +1,6 @@
 #include "xmemfile.h"
+
+
 //////////////////////////////////////////////////////////
 CxMemFile::CxMemFile(unsigned char* pBuffer, unsigned long size)
 {
