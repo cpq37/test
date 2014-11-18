@@ -106,12 +106,12 @@ bool PicManager::addImages(const QString &path)
         qDebug()<<dirName;
         QDir dir(dirName);
         QStringList filters;
-		filters.append(QString("*.jpg"));
-		filters.append(QString("*.jpeg"));
-		filters.append(QString("*.png"));
-		filters.append(QString("*.bmp"));
-//         foreach(QByteArray format, QImageReader::supportedImageFormats())
-//             filters += "*." + format;
+// 		filters.append(QString("*.jpg"));
+// 		filters.append(QString("*.jpeg"));
+// 		filters.append(QString("*.png"));
+// 		filters.append(QString("*.bmp"));
+        foreach(QByteArray format, QImageReader::supportedImageFormats())
+            filters += "*." + format;
 
         QList<QTreeWidgetItem *> items; 
         static int i = 0;

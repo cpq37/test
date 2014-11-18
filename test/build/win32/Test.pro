@@ -22,12 +22,20 @@ QT       += core \
 TARGET = Test
 
 # 放置可执行程序目标的目录
-DESTDIR =  #../../lib/x86
+CONFIG(debug, debug|release){
+    win32:DESTDIR = ../../bin/win32/debug
+}
+else{
+    win32:DESTDIR = ../../bin/win32/release
+}
+
 
 
 # moc文件存放路径
-MOC_DIR += temp
+MOC_DIR = temp
 
+# uic生成的头文件存放的路径
+UI_HEADERS_DIR = ui
 
 # 宏定义
 # 路径
@@ -75,11 +83,20 @@ HEADERS += \
     ../../src/UIEngine/fui_imagesfactory.h
 
 
-# 应用程序所需的额外的包含路径的列表
-INCLUDEPATH +=
-
 # 寻找补充文件的搜索路径
 VPATH += 
 
+# 应用程序所需的额外的包含路径的列表
+INCLUDEPATH += 
+
 # -L：引入路径 -l：引入lib(不含后缀)
 LIBS +=
+
+win32{
+ CONFIG(debug, debug|release) {  
+	# vld 1.9h downloaded from http://vld.codeplex.com/   
+	#VLD_PATH = ../../vld-1.9h
+	INCLUDEPATH += ../../vld-1.9h/include 
+	LIBS += -L../../vld-1.9h/lib/ -lvld  
+	}
+}
