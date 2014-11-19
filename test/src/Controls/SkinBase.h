@@ -15,7 +15,7 @@ namespace SkinCtrl
 	{
 		Q_OBJECT
 	public:
-		CSkinBase(unsigned int nID, void *parent = NULL);
+		CSkinBase(unsigned int nID, QGraphicsItem *parent = NULL);
 		virtual ~CSkinBase();
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 		QRectF boundingRect()const;
@@ -43,8 +43,10 @@ namespace SkinCtrl
 		//draw text
 	protected:
 		//QSizeF m_size;
+		//CSkinBase *parent;
+		//std::list<CSkinBase *> children;
 	private:
 	};
-};
+}
 
 #endif // SKINBASE_H

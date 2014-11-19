@@ -63,7 +63,8 @@ bool FUI_ImagesFactory::SaveImagesToFile(const char* path)
     {
         ImageData *pTemp =  m_Images.Dereference(it_head->second);
         pTemp->pImageHead->offset = tempOffset;
-		pTemp->pImageHead->id	  = it_head->second.GetIndex();
+		if( pTemp->pImageHead->id == 0)
+			pTemp->pImageHead->id = AssignID(it_head->second.GetHandle());			
         file.Write((const void*)(pTemp->pImageHead), sizeof(ImageInfo), 1);
         it_head++;
 		tempOffset += pTemp->pImageHead->size;

@@ -4,26 +4,24 @@
 #include "workscene.h"
 #include "picmanager.h"
 
-//#include "UIEngine/ImageResourceManager.h"
-#include "UIEngine/fui_imagesfactory.h"
 #include "Common/setdebugnew.h"
+#include "Controls/SkinImageItem.h"
+#include "Controls/SkinContainer.h"
 
 #ifdef _DEBUG 
 #include "vld.h" 
 #endif
 
+
+
 MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     : QMainWindow(parent, f)
+	, m_pCurrentParent(NULL)
 {
     //createActions();
     createMenus();
     createStatusBar();
 
-	// !test code
-	testWidget = new MyWidget();
-	testTreeDialog = new Ui::Dialog();
-	testTreeDialog->setupUi( (QDialog*)testWidget);
-	// test code !
 
     pPicManagerDock = new QDockWidget(tr("Picture Manager"), this);
     //pPicManagerDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -33,15 +31,13 @@ MainWindow::MainWindow(QWidget* parent, Qt::WindowFlags f)
     pPicManagerDock->setWidget(pPicManagerWidget);
     pPicManagerDock->setMinimumWidth(200);
 	addDockWidget(Qt::LeftDockWidgetArea,pPicManagerDock);  
+	connect(pPicManagerWidget, SIGNAL(signalAddPicture(const HImage&)), this, SLOT(slotAddPicToCurrentParent(const HImage&)));
 
     scene = new WorkScene(this);
     scene->setSceneRect( QRectF(-1, -1, 800+2, 480+2) );
     view = new MyGraphicsView(scene, this);
-    //view->resize(800+4, 480+4);
     setCentralWidget( view );
 }
-
-
 
 MainWindow::~MainWindow()
 {
@@ -51,17 +47,6 @@ MainWindow::~MainWindow()
 // 		delete (*it);
 // 		m_ImageList.pop_front();
 // 	}
-
-	if( testTreeDialog )
-	{
-		delete testTreeDialog;
-		testTreeDialog = NULL;
-	}
-	if( testWidget )
-	{
-		delete testWidget;
-		testWidget = NULL;
-	}
 }
 
 
@@ -69,8 +54,6 @@ void MainWindow::createActions()
 {
 
 }
-
-
 
 void MainWindow::createMenus(void)
 {
@@ -118,7 +101,7 @@ void MainWindow::createStatusBar()
     statusBar();
 }
 
-void MainWindow::openImage(const QString& path)
+void MainWindow::openImage()
 {
 	
 	QString fileName;
@@ -176,21 +159,6 @@ void MainWindow::openDialog()
     {
         qDebug()<<dirName;
     }
-
-	testTreeDialog->treeWidget->setColumnCount(2);
-	QStringList treeLabers(tr("Name"));
-	treeLabers += tr("Size");
-	testTreeDialog->treeWidget->setHeaderLabels(treeLabers);
-	QList<QTreeWidgetItem *> items;
-	for (int i = 0; i < 10; ++i)
-		items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("item: %1").arg(i))));
-
-	//testTreeDialog->treeWidget->insertTopLevelItems(1, items);
-	QTreeWidgetItem* testTreeItem = new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("test")));
-	testTreeItem->addChildren(items);
-	testTreeDialog->treeWidget->insertTopLevelItem(0, testTreeItem);
-	testTreeDialog->treeWidget->expandAll();
-	testWidget->show();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *)
@@ -201,27 +169,27 @@ void MainWindow::mousePressEvent(QMouseEvent *)
 
 void MainWindow::saveAllImage()
 {
-// 	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
-// 	while( it != m_ImageList.end() )
-// 	{
-// 		MyImageItem *tempImageItem = *it;
-// 		tempImageItem->SaveImage("test.data");
-// 		it++;
-// 	}
+
 }
 
 
 void MainWindow::test()
 {
-// 	std::list<MyImageItem *>::iterator it = m_ImageList.begin();
-// 	UIEngine::CImageDatasManager::GetInstance()->CleanAllImages();
-// 	while( it != m_ImageList.end() )
-// 	{
-// 		MyImageItem *tempImageItem = *it;
-// 		UIEngine::CImageDatasManager::GetInstance()->AddImage(tempImageItem->GetImageData());
-// 		it++;
-// 	}
-// 
-// 	UIEngine::CImageDatasManager::GetInstance()->SaveAllImages();
+
 }
 
+void MainWindow::slotAddPicToCurrentParent(const HImage& hImage)
+{
+	if( m_pCurrentParent )
+	{
+		delete m_pCurrentParent;
+		m_pCurrentParent = NULL;
+	}
+
+	m_pCurrentParent = new CSkinContainer;
+	CSkinImageItem *pTempImgItem = new CSkinImageItem(0, m_pCurrentParent);
+	pTempImgItem->LoadImageFromHImage(hImage);
+	m_pCurrentParent->AddItem(pTempImgItem);
+
+	scene->addItem(m_pCurrentParent);
+}

@@ -68,3 +68,19 @@ bool CDrawUnit::IsInClientArea(int x, int y)
 	}
 	//	return true;
 }
+
+void CDrawUnit::AddItem(CDrawUnit *item)
+{
+	children.push_back(item);
+}
+
+void CDrawUnit::DeleteItem(CDrawUnit *item)
+{
+	std::list<CDrawUnit *>::iterator it = children.begin();
+	while( it != children.end() )
+	{
+		if( *it == item)
+			children.erase(it);
+		it++;
+	}
+}

@@ -19,7 +19,7 @@ typedef struct _ImageInfo
 	unsigned int width;
 	unsigned int height;
 	unsigned int size;
-}ImageInfo;
+}ImageInfo;//total 20 bytes
 
 typedef struct
 {
@@ -43,9 +43,10 @@ public:
 // management.
 
     HImage		AddImage(const ImageData* pBitmap);
-    HImage		GetImage(const char* name);
-	HImage		GetImage(const unsigned int bitmapID);
-    //void		DeleteImage( HImage himg );
+    //HImage		GetImage(const char* name);
+	HImage		GetImage(const unsigned int index);
+	HImage      GetImageByID(const unsigned int bitmapID);
+    void		DeleteImage( HImage himg );
 	const ImageData* GetImageData(HImage himg); 
 
 	void		CleanAllImages();
@@ -61,24 +62,25 @@ public:
 	int GetImagesCount() const
 	{  return ( m_nImagesCount );  }
 
+	int AssignID(int id);
 protected:
-	typedef HandleMgr <ImageData, HImage> HTextureMgr;
+	typedef HandleMgr <ImageData, HImage> HImageHandleMgr;
 
 	// Index by name into db.
 
 	// case-insensitive string comparison predicate
-	struct istring_less
-	{
-		bool operator () ( const std::string& l, const std::string& r ) const
-		{  return ( ::stricmp( l.c_str(), r.c_str() ) < 0 );  }
-	};
+// 	struct istring_less
+// 	{
+// 		bool operator () ( const std::string& l, const std::string& r ) const
+// 		{  return ( ::stricmp( l.c_str(), r.c_str() ) < 0 );  }
+// 	};
 
-	typedef std::map <std::string, HImage, istring_less > NameIndex;
+	typedef std::map <unsigned int, HImage> NameIndex;
 	typedef std::pair <NameIndex::iterator, bool> NameIndexInsertRc;
 
 // Private data.
 
-	HTextureMgr				m_Images;
+	HImageHandleMgr			m_Images;
 	NameIndex				m_NameIndex;
 	CxIOFile				m_fPacketFile;
 	unsigned int			m_nImagesCount;

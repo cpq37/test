@@ -10,8 +10,8 @@ using namespace SkinCtrl;
 *   功能：  构造函数
 *
 ******************************************************************************/
-CSkinBase::CSkinBase(unsigned int nID, void *parent /* = NULL */)
-	: QGraphicsObject((QGraphicsItem*)(parent))
+CSkinBase::CSkinBase(unsigned int nID, QGraphicsItem *parent)
+	: QGraphicsObject(/*(QGraphicsItem*)*/parent)
 	, CDrawUnit(parent,nID)
 {
 
@@ -86,5 +86,5 @@ void CSkinBase::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 ******************************************************************************/
 void CSkinBase::DrawPixmap(void *painter, int x, int y, const QPixmap *ppix) const
 {
-	((QPainter*)painter)->drawPixmap(0, 0, *ppix);
+	((QPainter*)painter)->drawPixmap(x, y, *ppix);
 }

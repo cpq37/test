@@ -13,7 +13,7 @@
 
 using namespace SkinCtrl;
 
-CSkinImageItem::CSkinImageItem(unsigned int nID, void *parent )
+CSkinImageItem::CSkinImageItem(unsigned int nID, QGraphicsItem *parent )
 	: CSkinBase(nID, parent)
 	, m_pImage(NULL)
 {

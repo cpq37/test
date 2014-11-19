@@ -59,6 +59,7 @@ SOURCES += \
     ../../src/Controls/DrawUnit.cpp \
     ../../src/Controls/SkinBase.cpp \
     ../../src/Controls/SkinImageItem.cpp \
+    ../../src/Controls/SkinContainer.cpp \
     ../../src/picmanager.cpp \
     ../../src/UIEngine/fui_imagesfactory.cpp \
     ../../src/UIEngine/imagemgr.cpp
@@ -79,6 +80,7 @@ HEADERS += \
     ../../src/Controls/DrawUnit.h \
     ../../src/Controls/SkinBase.h \
     ../../src/Controls/SkinImageItem.h \
+    ../../src/Controls/SkinContainer.h \
     ../../src/picmanager.h \
     ../../src/UIEngine/fui_imagesfactory.h
 

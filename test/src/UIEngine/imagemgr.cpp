@@ -5,6 +5,21 @@
 #include "vld.h" 
 #endif
 
+int ImageMgr::AssignID(int id)
+{
+	//if( 0 == id )
+	{
+		while( m_NameIndex.find(id) != m_NameIndex.end() )
+		{
+			id++;
+			if(0 == id)
+				id++;
+		}
+	}
+
+	return id;
+}
+
 
 HImage ImageMgr::AddImage(const ImageData* pBitmap)
 {
@@ -14,18 +29,13 @@ HImage ImageMgr::AddImage(const ImageData* pBitmap)
     HImage hImage = HImage();
     pImageData = m_Images.Acquire( hImage );
 
-    char str[32];
-    if( pImageData )
-    {
-        sprintf(str, "%d", hImage.GetHandle());
-    }
-// 	else
-// 	{
-// 		return 0;
-// 	}
+	// Assign ID
+	if( 0 == pBitmap->pImageHead->id )
+		pBitmap->pImageHead->id = AssignID(hImage.GetHandle());
+
     // insert
     NameIndexInsertRc rc =
-        m_NameIndex.insert( std::make_pair( str, hImage ) );
+        m_NameIndex.insert( std::make_pair( pBitmap->pImageHead->id, hImage ) );
     if ( rc.second )
     {
         // this is a new insertion
@@ -83,30 +93,68 @@ void ImageMgr::CleanAllImages()
 }
 
 
-HImage	ImageMgr::GetImage( const char* name )
-{
-    // find
-    NameIndex::iterator it = m_NameIndex.find( std::string(name) );
-// 	if ( rc.second )
-// 	{
-// 		ImagdeData *pImageDat = m_Images.Acquire( it->second );
-// 	}
-    return ( it->second );
-}
+// HImage	ImageMgr::GetImage( const char* name )
+// {
+//     // find
+//     NameIndex::iterator it = m_NameIndex.find( std::string(name) );
+//     return ( it->second );
+// }
 
-HImage ImageMgr::GetImage(const unsigned int bitmapID)
+HImage ImageMgr::GetImage(const unsigned int index)
 {
 	NameIndex::iterator it = m_NameIndex.begin();
 	while (it != m_NameIndex.end())
 	{
-		if( bitmapID == it->second.GetIndex() )
+		if( index == it->second.GetIndex() )
 			return it->second;
 
 		it++;
 	}
+	HImage hImage;
+	return hImage;
+}
+
+HImage ImageMgr::GetImageByID(const unsigned int bitmapID)
+{
+	NameIndex::iterator it = m_NameIndex.begin();
+	while (it != m_NameIndex.end())
+	{
+		ImageData* pImageData = m_Images.Dereference( it->second );
+		if( pImageData->pImageHead->id == bitmapID )
+			return it->second;
+
+		it++;
+	}
+	HImage hImage;
+	return hImage;
 }
 
 const ImageData* ImageMgr::GetImageData(HImage himg)
 {
 	return m_Images.Dereference( himg );
+}
+
+void ImageMgr::DeleteImage( HImage himg )
+{
+	ImageData* pImageData = m_Images.Dereference( himg );
+
+	if( pImageData )
+	{
+		// delete from index
+		m_NameIndex.erase( m_NameIndex.find(pImageData->pImageHead->id) );
+
+
+		if( pImageData->pImageHead )
+		{
+			free((void*)pImageData->pImageHead);
+			pImageData->pImageHead = NULL;
+		}
+		if( pImageData->pDatas )
+		{
+			free((void*)pImageData->pDatas);
+			pImageData->pDatas = NULL;
+		}
+		// delete from db
+		m_Images.Release( himg );
+	}
 }

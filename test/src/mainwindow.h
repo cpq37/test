@@ -9,17 +9,23 @@
 #include <cmath>
 #include <QDebug>
 
-//#include "myimageitem.h"
-#include "Controls/SkinImageItem.h"
-#include "ui_TestUI.h"
+//#include "Controls/SkinImageItem.h"
+#include "UIEngine/fui_imagesfactory.h"
+
 
 class WorkScene;
 class QGraphicsScene;
 class QGraphicsView;
 class QLabel;
-//class CSkinImageItem;
 class PicManager;
 class QDockWidget;
+
+namespace SkinCtrl
+{
+class CSkinImageItem;
+class CSkinBase;
+class CSkinContainer;
+}
 
 using namespace SkinCtrl;
 
@@ -116,11 +122,12 @@ public:
 	 virtual void mousePressEvent(QMouseEvent *);
 
 
-public slots:
-     void openImage(const QString& path = QString());
+private slots:
+     void openImage();
 	 void openDialog(void);
 	 void saveAllImage(void);
 	 void test(void);
+	 void slotAddPicToCurrentParent(const HImage& hImage);
 
 private:
      void createActions(void);
@@ -140,7 +147,6 @@ private:
 	 QAction*			saveAllImg;
 	 QAction*			testAction;
 
-	 MyWidget*			testWidget;
      PicManager*        pPicManagerWidget;
      QDockWidget*       pPicManagerDock;
 
@@ -148,11 +154,9 @@ private:
 
      QGraphicsView*         view;
      QGraphicsScene*        scene;
-     //WorkScene*             scene;
-
-	 Ui::Dialog*		testTreeDialog;
 	
-	 std::list<CSkinImageItem*>  m_ImageList;
+	 std::list<CSkinBase*>  m_ImageList;
+	 CSkinBase *m_pCurrentParent;
 };
 
 

@@ -3,6 +3,7 @@
 #define DRAWUNIT_H
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -44,13 +45,18 @@ public:
 
 	virtual void Draw(void * handler) = 0;
 	//virtual void ReDraw() = 0;
+	virtual void ReadDatas(void) = 0;
+	virtual void WriteDatas(void) = 0;
 	void SetType(const string &type);
 	bool IsKindOf(const string &kind);
 	//设置控件区域
-	void SetRect(const SRect &rect);
+	virtual void SetRect(const SRect &rect);
 	//获取控件区域
 	SRect GetRect() const;
 	//void move(const Struct_position &pos);
+
+	void AddItem(CDrawUnit *item);
+	void DeleteItem(CDrawUnit *item);
 	
 protected:
 	bool IsInClientArea(int x, int y);
@@ -59,6 +65,7 @@ protected:
 	void*			m_pParent;
 	void*			m_pHandler;
 	unsigned int	m_nID;
+	std::list<CDrawUnit *> children;
 };
 
 #endif

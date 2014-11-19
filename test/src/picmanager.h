@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "ui_picmanager.h"
+#include "UIEngine/fui_imagesfactory.h"
 
 namespace Ui {
 class PicManager;
@@ -15,6 +16,9 @@ class QGraphicsScene;
 class PicManager : public QWidget, public Ui_PicManager
 {
     Q_OBJECT
+
+Q_SIGNALS:
+	void signalAddPicture(const HImage &hImage);
     
 public:
     explicit PicManager(QWidget *parent = 0);
@@ -22,7 +26,9 @@ public:
     
 public slots:
     void on_addPicButton_clicked();
-    void on_test(QTreeWidgetItem * item, int column);
+	void on_deletItem();
+    void on_test();
+	void on_showItem(QTreeWidgetItem * item, int column);
 protected:
 	void contextMenuEvent(QContextMenuEvent* e);
 private:
@@ -33,6 +39,7 @@ private:
     //Ui::PicManager *ui;
     QGraphicsScene	*m_pScene;
 	QAction			*deleteAction;
+	QAction			*testAction;
 };
 
 #endif // PICMANAGER_H
